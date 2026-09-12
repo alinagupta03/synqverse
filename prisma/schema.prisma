@@ -1,0 +1,584 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  anonymousId   String?   @unique
+  role          String    @default("STUDENT")
+  tier          String    @default("FREE") // FREE, PRO, ORGANIZATION
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  profile              Profile?
+  academic             AcademicProfile?
+  skills               UserSkill[]
+  interests            UserInterest[]
+  ownedTeams           Team[]             @relation("TeamOwner")
+  teamMemberships      TeamMember[]
+  teamInvites          TeamInvite[]       @relation("InviteReceiver")
+  workspaceMemberships WorkspaceMember[]
+  channelMessages      ChannelMessage[]
+  assignedTasks        WorkspaceTask[]    @relation("TaskAssignee")
+  createdTasks         WorkspaceTask[]    @relation("TaskCreator")
+  taskComments         TaskComment[]
+  workspaceNotes       WorkspaceNote[]
+  workspaceFiles       WorkspaceFile[]
+  workspaceActivities  WorkspaceActivity[]
+  
+  // Phase 6 extensions
+  ideasProposed        Idea[]
+  ideaVotes            IdeaVote[]
+  ideaComments         IdeaComment[]
+  innovationReviews    SubmissionReview[]
+
+  // Phase 7 extensions
+  moderationActions    ModerationAction[]
+  trustBadges          TrustBadge[]
+
+  savedProfiles        SavedProfile[]     @relation("UserSavedProfiles")
+  savedBy              SavedProfile[]     @relation("ProfileSavedBy")
+  sentConnections      ConnectionRequest[] @relation("SentConnections")
+  receivedConnections  ConnectionRequest[] @relation("ReceivedConnections")
+  conversations        ConversationParticipant[]
+  messages             Message[]
+  blocksSent           Block[]            @relation("UserBlocks")
+  blocksReceived       Block[]            @relation("UserBlockedBy")
+  reportsSent          Report[]           @relation("ReportsSent")
+  reportsReceived      Report[]           @relation("ReportsReceived")
+  notifications        Notification[]
+}
+
+model Profile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bio             String?
+  avatarUrl       String?
+  lookingFor      String?
+  availability    String?
+  projectTypes    String   @default("")
+  anonymousMode   Boolean  @default(true)
+  experienceLevel String   @default("Beginner") // Beginner, Intermediate, Advanced
+}
+
+model AcademicProfile {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityName String?
+  branch         String?
+  stream         String?
+  year           String?
+  major          String?
+  graduationYear Int?
+}
+
+model Skill {
+  id    String      @id @default(uuid())
+  name  String      @unique
+  users UserSkill[]
+}
+
+model UserSkill {
+  userId  String
+  skillId String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  @@id([userId, skillId])
+}
+
+model Interest {
+  id    String         @id @default(uuid())
+  name  String         @unique
+  users UserInterest[]
+}
+
+model UserInterest {
+  userId     String
+  interestId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
+  @@id([userId, interestId])
+}
+
+model SavedProfile {
+  id          String   @id @default(uuid())
+  userId      String
+  savedUserId String
+  createdAt   DateTime @default(now())
+  user        User     @relation("UserSavedProfiles", fields: [userId], references: [id], onDelete: Cascade)
+  savedUser   User     @relation("ProfileSavedBy", fields: [savedUserId], references: [id], onDelete: Cascade)
+  @@unique([userId, savedUserId])
+}
+
+model ConnectionRequest {
+  id         String   @id @default(uuid())
+  senderId   String
+  receiverId String
+  status     String   @default("PENDING")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  sender     User     @relation("SentConnections", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver   User     @relation("ReceivedConnections", fields: [receiverId], references: [id], onDelete: Cascade)
+  @@unique([senderId, receiverId])
+}
+
+model Conversation {
+  id           String                    @id @default(uuid())
+  createdAt    DateTime                  @default(now())
+  updatedAt    DateTime                  @updatedAt
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  conversationId String
+  userId         String
+  joinedAt       DateTime @default(now())
+  lastReadAt     DateTime @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([conversationId, userId])
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  conversationId String
+  senderId       String
+  content        String
+  isEdited       Boolean  @default(false)
+  isDeleted      Boolean  @default(false)
+  replyToId      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  replyTo        Message?     @relation("MessageReplies", fields: [replyToId], references: [id])
+  replies        Message[]    @relation("MessageReplies")
+}
+
+model Block {
+  id        String   @id @default(uuid())
+  blockerId String
+  blockedId String
+  createdAt DateTime @default(now())
+  blocker   User     @relation("UserBlocks", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked   User     @relation("UserBlockedBy", fields: [blockedId], references: [id], onDelete: Cascade)
+  @@unique([blockerId, blockedId])
+}
+
+model Report {
+  id                String   @id @default(uuid())
+  reporterId        String
+  reportedUserId    String
+  targetType        String   @default("MESSAGE") // PROFILE, MESSAGE, TEAM, PROJECT, FILE
+  targetId          String?
+  reason            String   // spam, harassment, scam, fake identity, inappropriate content, hate/abuse, other
+  description       String?
+  status            String   @default("OPEN")
+  createdAt         DateTime @default(now())
+  reporter          User     @relation("ReportsSent", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser      User     @relation("ReportsReceived", fields: [reportedUserId], references: [id], onDelete: Cascade)
+}
+
+// ─── Phase 7: Trust & Safety ────────────────────────────────────────────────
+
+model ModerationAction {
+  id          String    @id @default(uuid())
+  userId      String
+  level       Int       // 1: Warning, 2: Temp Comm, 3: Temp Account, 4: Manual Review, 5: Suspension
+  actionType  String    // WARNING, TEMP_COMM, TEMP_ACCOUNT, SUSPENSION
+  reason      String
+  startTime   DateTime  @default(now())
+  endTime     DateTime?
+  source      String    // SYSTEM or Admin ID
+  status      String    @default("ACTIVE") // ACTIVE, EXPIRED, REVOKED
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TrustBadge {
+  id          String   @id @default(uuid())
+  userId      String
+  badgeName   String   // Verified Student, Good Collaborator, etc.
+  earnedAt    DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, badgeName])
+}
+
+model ModerationAuditLog {
+  id          String   @id @default(uuid())
+  actionId    String
+  adminId     String
+  details     String
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  type        String
+  message     String
+  referenceId String?
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Team {
+  id               String       @id @default(uuid())
+  ownerId          String
+  name             String
+  projectIdea      String?
+  description      String?
+  category         String       @default("Other")
+  targetSize       Int          @default(6)
+  requiredSkills   String       @default("")
+  branchPreference String?
+  streamPreference String?
+  availability     String?
+  deadline         DateTime?
+  isOpen           Boolean      @default(true)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  owner            User         @relation("TeamOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members          TeamMember[]
+  roles            TeamRole[]
+  invites          TeamInvite[]
+  workspace        Workspace?
+  innovationSubmissions InnovationSubmission[]
+}
+
+model TeamRole {
+  id       String @id @default(uuid())
+  teamId   String
+  roleName String
+  count    Int    @default(1)
+  filled   Int    @default(0)
+  team     Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
+}
+
+model TeamMember {
+  id       String   @id @default(uuid())
+  teamId   String
+  userId   String
+  role     String   @default("STUDENT")
+  status   String   @default("ACTIVE")
+  joinedAt DateTime @default(now())
+  team     Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([teamId, userId])
+}
+
+model TeamInvite {
+  id          String   @id @default(uuid())
+  teamId      String
+  inviteeId   String
+  invitedById String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitee     User     @relation("InviteReceiver", fields: [inviteeId], references: [id], onDelete: Cascade)
+  @@unique([teamId, inviteeId])
+}
+
+model Workspace {
+  id          String            @id @default(uuid())
+  teamId      String            @unique
+  name        String
+  description String?
+  deadline    DateTime?
+  isArchived  Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  team        Team              @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  members     WorkspaceMember[]
+  channels    Channel[]
+  tasks       WorkspaceTask[]
+  milestones  WorkspaceMilestone[]
+  notes       WorkspaceNote[]
+  files       WorkspaceFile[]
+  activities  WorkspaceActivity[]
+  
+  // Phase 6 extensions
+  ideas       Idea[]
+  project     Project?
+}
+
+model WorkspaceMember {
+  id          String    @id @default(uuid())
+  workspaceId String
+  userId      String
+  role        String    @default("MEMBER") // OWNER, ADMIN, MEMBER
+  joinedAt    DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([workspaceId, userId])
+}
+
+model Channel {
+  id          String           @id @default(uuid())
+  workspaceId String
+  name        String
+  description String?
+  isDefault   Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  workspace   Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  messages    ChannelMessage[]
+  @@unique([workspaceId, name])
+}
+
+model ChannelMessage {
+  id        String   @id @default(uuid())
+  channelId String
+  senderId  String
+  content   String
+  isEdited  Boolean  @default(false)
+  isDeleted Boolean  @default(false)
+  replyToId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  channel   Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  sender    User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  replyTo   ChannelMessage?  @relation("ChannelReplies", fields: [replyToId], references: [id])
+  replies   ChannelMessage[] @relation("ChannelReplies")
+}
+
+model WorkspaceTask {
+  id          String          @id @default(uuid())
+  workspaceId String
+  title       String
+  description String?
+  assigneeId  String?
+  creatorId   String
+  status      String          @default("BACKLOG")
+  priority    String          @default("MEDIUM")
+  labels      String          @default("")
+  deadline    DateTime?
+  order       Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  workspace   Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  assignee    User?           @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  creator     User            @relation("TaskCreator", fields: [creatorId], references: [id])
+  comments    TaskComment[]
+  checklists  TaskChecklist[]
+}
+
+model TaskComment {
+  id        String        @id @default(uuid())
+  taskId    String
+  authorId  String
+  content   String
+  createdAt DateTime      @default(now())
+  task      WorkspaceTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model TaskChecklist {
+  id        String        @id @default(uuid())
+  taskId    String
+  label     String
+  done      Boolean       @default(false)
+  order     Int           @default(0)
+  task      WorkspaceTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model WorkspaceMilestone {
+  id          String    @id @default(uuid())
+  workspaceId String
+  title       String
+  description String?
+  phase       String    @default("Research")
+  status      String    @default("UPCOMING")
+  dueDate     DateTime?
+  order       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model WorkspaceNote {
+  id          String    @id @default(uuid())
+  workspaceId String
+  authorId    String
+  title       String
+  content     String    @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model WorkspaceFile {
+  id          String    @id @default(uuid())
+  workspaceId String
+  uploaderId  String
+  name        String
+  fileType    String
+  size        Int
+  url         String
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  uploader    User      @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+}
+
+model WorkspaceActivity {
+  id            String    @id @default(uuid())
+  workspaceId   String
+  actorId       String
+  type          String
+  message       String
+  referenceId   String?
+  referenceType String?
+  createdAt     DateTime  @default(now())
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  actor         User      @relation(fields: [actorId], references: [id], onDelete: Cascade)
+}
+
+// ─── Phase 6: Idea Lab & Innovation Support ─────────────────────────────────
+
+model Idea {
+  id               String       @id @default(uuid())
+  workspaceId      String
+  authorId         String
+  title            String
+  problem          String
+  solution         String
+  targetUsers      String       @default("")
+  technology       String       @default("")
+  expectedImpact   String       @default("")
+  feasibility      Int          @default(0) // Internal score 1-10
+  businessPotential Int         @default(0) // Internal score 1-10
+  innovationLevel  Int          @default(0) // Internal score 1-10
+  score            Float        @default(0) // Overall calculated score
+  status           String       @default("ACTIVE") // ACTIVE, ARCHIVED, PROMOTED
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  workspace        Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  author           User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  votes            IdeaVote[]
+  comments         IdeaComment[]
+  projects         Project[]
+}
+
+model IdeaVote {
+  id        String   @id @default(uuid())
+  ideaId    String
+  userId    String
+  value     Int      // +1 or -1
+  createdAt DateTime @default(now())
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([ideaId, userId])
+}
+
+model IdeaComment {
+  id        String   @id @default(uuid())
+  ideaId    String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id               String    @id @default(uuid())
+  workspaceId      String    @unique
+  ideaId           String?
+  problem          String
+  solution         String
+  targetUsers      String?
+  technology       String?
+  impact           String?
+  stage            String    @default("Idea") // Idea, Research, Prototype, MVP, Testing, Launch
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  idea             Idea?     @relation(fields: [ideaId], references: [id], onDelete: SetNull)
+  submissions      InnovationSubmission[]
+}
+
+model InnovationSubmission {
+  id               String    @id @default(uuid())
+  teamId           String
+  projectId        String
+  problem          String
+  solution         String
+  innovation       String
+  technology       String
+  prototype        String?
+  targetUsers      String
+  expectedImpact   String
+  currentStage     String
+  resourcesNeeded  String
+  supportRequested String
+  status           String    @default("SUBMITTED") // SUBMITTED, UNDER_REVIEW, SHORTLISTED, NEEDS_CHANGES, ACCEPTED, REJECTED
+  links            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  team             Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  project          Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reviews          SubmissionReview[]
+}
+
+model SubmissionReview {
+  id               String               @id @default(uuid())
+  submissionId     String
+  reviewerId       String
+  statusChange     String?
+  feedback         String
+  createdAt        DateTime             @default(now())
+  submission       InnovationSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  reviewer         User                 @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+}
+
+// ─── Phase 9: SaaS & Organizations ──────────────────────────────────────────
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  type        String   @default("COLLEGE") // COLLEGE, UNIVERSITY, INCUBATOR
+  domain      String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  members     OrganizationMember[]
+}
+
+model OrganizationMember {
+  id             String       @id @default(uuid())
+  organizationId String
+  userId         String
+  role           String       @default("MEMBER") // ADMIN, MEMBER, MENTOR
+  joinedAt       DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  @@unique([organizationId, userId])
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  eventName   String
+  userId      String?
+  metadata    String?  // JSON string
+  createdAt   DateTime @default(now())
+}
+
+model Mentor {
+  id        String   @id @default(uuid())
+  specialty String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
