@@ -13,7 +13,11 @@ export async function GET() {
       orderBy: { createdAt: 'desc' }
     })
     return NextResponse.json(submissions)
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch submissions" }, { status: 500 })
+  } catch (error: any) {
+    return NextResponse.json({ 
+      error: "Failed to fetch submissions",
+      message: error.message,
+      stack: error.stack
+    }, { status: 500 })
   }
 }
