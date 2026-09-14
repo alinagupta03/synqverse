@@ -64,12 +64,12 @@ export default function WorkspaceNotes() {
   }
 
   return (
-    <div className="flex-1 flex overflow-hidden bg-gray-50/40">
+    <div className="flex-1 flex overflow-hidden bg-muted/40">
       {/* Sidebar */}
-      <div className="w-64 border-r border-gray-200 flex flex-col glass z-10 hidden sm:flex">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center shrink-0">
-          <h2 className="font-semibold text-gray-900">Notes</h2>
-          <button onClick={createNote} className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-900 px-2 py-1 rounded transition-colors">+</button>
+      <div className="w-64 border-r border-border flex flex-col glass z-10 hidden sm:flex">
+        <div className="p-4 border-b border-border flex justify-between items-center shrink-0">
+          <h2 className="font-semibold text-foreground">Notes</h2>
+          <button onClick={createNote} className="text-sm bg-gray-200 hover:bg-gray-300 text-foreground px-2 py-1 rounded transition-colors">+</button>
         </div>
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {notes.map(n => (
@@ -77,7 +77,7 @@ export default function WorkspaceNotes() {
               key={n.id}
               onClick={() => selectNote(n)}
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${
-                activeNoteId === n.id ? "bg-blue-600 text-gray-900 shadow-lg" : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                activeNoteId === n.id ? "bg-blue-600 text-foreground shadow-lg" : "text-muted-foreground hover:bg-gray-100 hover:text-foreground"
               }`}
             >
               <div className="font-medium truncate">{n.title || "Untitled"}</div>
@@ -91,30 +91,30 @@ export default function WorkspaceNotes() {
       <div className="flex-1 flex flex-col">
         {activeNoteId ? (
           <>
-            <div className="p-4 border-b border-gray-200 flex justify-between items-center shrink-0 glass">
+            <div className="p-4 border-b border-border flex justify-between items-center shrink-0 glass">
                <input
                  type="text"
                  value={editTitle}
                  onChange={e => setEditTitle(e.target.value)}
                  onBlur={saveNote}
-                 className="bg-transparent text-xl font-bold text-gray-900 focus:outline-none w-2/3"
+                 className="bg-transparent text-xl font-bold text-foreground focus:outline-none w-2/3"
                  placeholder="Note Title"
                />
-               <button onClick={saveNote} className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-900 px-3 py-1.5 rounded transition-colors">Save</button>
+               <button onClick={saveNote} className="text-xs bg-gray-200 hover:bg-gray-300 text-foreground px-3 py-1.5 rounded transition-colors">Save</button>
             </div>
             <textarea
               value={editContent}
               onChange={e => setEditContent(e.target.value)}
               onBlur={saveNote}
               placeholder="Start typing..."
-              className="flex-1 w-full p-8 bg-transparent text-gray-900 resize-none focus:outline-none custom-scrollbar leading-relaxed"
+              className="flex-1 w-full p-8 bg-transparent text-foreground resize-none focus:outline-none custom-scrollbar leading-relaxed"
             />
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-gray-500">
+          <div className="flex-1 flex items-center justify-center text-muted-foreground">
             <div className="text-center">
               <p className="mb-4">Select a note or create a new one</p>
-              <button onClick={createNote} className="bg-blue-600 hover:bg-blue-700 text-gray-900 px-4 py-2 rounded-lg transition-colors text-sm">Create Note</button>
+              <button onClick={createNote} className="bg-blue-600 hover:bg-blue-700 text-foreground px-4 py-2 rounded-lg transition-colors text-sm">Create Note</button>
             </div>
           </div>
         )}

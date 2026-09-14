@@ -45,37 +45,37 @@ export default function WorkspaceOverview() {
           <span className="px-2 py-0.5 rounded text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
             {data.team.category}
           </span>
-          <span className="text-sm text-gray-500">Active Workspace</span>
+          <span className="text-sm text-muted-foreground">Active Workspace</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">{data.name}</h1>
-        {data.description && <p className="text-gray-500 max-w-3xl">{data.description}</p>}
+        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">{data.name}</h1>
+        {data.description && <p className="text-muted-foreground max-w-3xl">{data.description}</p>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left Column: Stats & Current Status */}
         <div className="md:col-span-2 space-y-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="p-4 glass rounded-2xl border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Members</p>
-              <p className="text-2xl font-bold text-gray-900">{data.members.length}</p>
+            <div className="p-4 glass rounded-2xl border border-border">
+              <p className="text-sm text-muted-foreground mb-1">Members</p>
+              <p className="text-2xl font-bold text-foreground">{data.members.length}</p>
             </div>
-            <div className="p-4 glass rounded-2xl border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Tasks Done</p>
-              <p className="text-2xl font-bold text-gray-900">{completedTasks}/{totalTasks}</p>
+            <div className="p-4 glass rounded-2xl border border-border">
+              <p className="text-sm text-muted-foreground mb-1">Tasks Done</p>
+              <p className="text-2xl font-bold text-foreground">{completedTasks}/{totalTasks}</p>
             </div>
-            <div className="p-4 glass rounded-2xl border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Files</p>
-              <p className="text-2xl font-bold text-gray-900">{data.files.length}</p>
+            <div className="p-4 glass rounded-2xl border border-border">
+              <p className="text-sm text-muted-foreground mb-1">Files</p>
+              <p className="text-2xl font-bold text-foreground">{data.files.length}</p>
             </div>
-            <div className="p-4 glass rounded-2xl border border-gray-200">
-              <p className="text-sm text-gray-500 mb-1">Deadline</p>
-              <p className="text-lg font-bold text-gray-900 truncate">{data.deadline ? new Date(data.deadline).toLocaleDateString() : 'None'}</p>
+            <div className="p-4 glass rounded-2xl border border-border">
+              <p className="text-sm text-muted-foreground mb-1">Deadline</p>
+              <p className="text-lg font-bold text-foreground truncate">{data.deadline ? new Date(data.deadline).toLocaleDateString() : 'None'}</p>
             </div>
           </div>
 
-          <div className="p-6 glass rounded-2xl border border-gray-200 relative overflow-hidden group">
+          <div className="p-6 glass rounded-2xl border border-border relative overflow-hidden group">
              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-             <h2 className="font-semibold text-gray-900 mb-4 flex items-center justify-between">
+             <h2 className="font-semibold text-foreground mb-4 flex items-center justify-between">
                 Current Milestone
                 <Link href={`/workspace/${id}/roadmap`} className="text-xs text-blue-400 hover:underline">View Roadmap</Link>
              </h2>
@@ -83,21 +83,21 @@ export default function WorkspaceOverview() {
                <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-blue-400 mb-1">{activeMilestone.phase}</p>
-                    <p className="text-xl font-bold text-gray-900">{activeMilestone.title}</p>
+                    <p className="text-xl font-bold text-foreground">{activeMilestone.title}</p>
                   </div>
                   <div className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                    activeMilestone.status === 'IN_PROGRESS' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-gray-100 border-gray-200 text-gray-500'
+                    activeMilestone.status === 'IN_PROGRESS' ? 'bg-blue-500/10 border-blue-500/30 text-blue-400' : 'bg-gray-100 border-border text-muted-foreground'
                   }`}>
                     {activeMilestone.status.replace('_', ' ')}
                   </div>
                </div>
              ) : (
-               <p className="text-gray-500 text-sm">No active milestones.</p>
+               <p className="text-muted-foreground text-sm">No active milestones.</p>
              )}
           </div>
 
-          <div className="p-6 glass rounded-2xl border border-gray-200">
-            <h2 className="font-semibold text-gray-900 mb-4 flex items-center justify-between">
+          <div className="p-6 glass rounded-2xl border border-border">
+            <h2 className="font-semibold text-foreground mb-4 flex items-center justify-between">
                Task Progress
                <Link href={`/workspace/${id}/tasks`} className="text-xs text-blue-400 hover:underline">View Board</Link>
             </h2>
@@ -105,29 +105,29 @@ export default function WorkspaceOverview() {
               <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all" style={{ width: `${taskProgress}%` }} />
               </div>
-              <span className="text-sm font-mono text-gray-900">{taskProgress}%</span>
+              <span className="text-sm font-mono text-foreground">{taskProgress}%</span>
             </div>
           </div>
         </div>
 
         {/* Right Column: Activity Feed */}
         <div className="space-y-6">
-          <div className="p-6 glass rounded-2xl border border-gray-200 h-[500px] flex flex-col">
-            <h2 className="font-semibold text-gray-900 mb-4">Recent Activity</h2>
+          <div className="p-6 glass rounded-2xl border border-border h-[500px] flex flex-col">
+            <h2 className="font-semibold text-foreground mb-4">Recent Activity</h2>
             <div className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
               {data.activities.length === 0 ? (
-                <p className="text-sm text-gray-500 text-center mt-10">No activity yet.</p>
+                <p className="text-sm text-muted-foreground text-center mt-10">No activity yet.</p>
               ) : (
                 data.activities.map((act: any) => (
                   <div key={act.id} className="flex gap-3 items-start">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0 text-xs text-gray-900">
+                    <div className="w-8 h-8 rounded-full bg-gray-100 border border-border flex items-center justify-center flex-shrink-0 text-xs text-foreground">
                       {act.actor.anonymousId?.slice(-2) || '?'}
                     </div>
                     <div>
-                      <p className="text-sm text-gray-900 leading-tight">
+                      <p className="text-sm text-foreground leading-tight">
                         <span className="font-medium">{act.actor.anonymousId}</span> {act.message.replace(act.actor.anonymousId, '')}
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">{new Date(act.createdAt).toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{new Date(act.createdAt).toLocaleString()}</p>
                     </div>
                   </div>
                 ))

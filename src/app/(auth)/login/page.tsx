@@ -27,7 +27,7 @@ export default function LoginPage() {
     <div className="space-y-6">
       <div className="space-y-2 text-center">
         <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-muted-foreground">
           Enter your email to sign in to your account
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button className="w-full" type="submit" disabled={isLoading}>
+        <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold text-base py-6 shadow-md" type="submit" disabled={isLoading}>
           {isLoading ? "Signing in..." : "Sign in"}
         </Button>
       </form>

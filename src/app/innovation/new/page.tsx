@@ -54,7 +54,7 @@ function InnovationForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground pb-20 pt-10 px-6 relative">
+    <div className="min-h-screen bg-background text-foreground pb-20 pt-10 px-6 relative">
       {toast && (
         <div className="fixed bottom-6 right-6 bg-red-900 text-white px-6 py-3 rounded-xl shadow-2xl z-50 animate-in slide-in-from-bottom-5">
           {toast}
@@ -62,29 +62,29 @@ function InnovationForm() {
       )}
       <div className="max-w-3xl mx-auto space-y-10">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-3">Submit for Innovation Support</h1>
-          <p className="text-gray-500 text-lg">Apply for mentorship, resources, and accelerator guidance for your official project.</p>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground mb-3">Submit for Innovation Support</h1>
+          <p className="text-muted-foreground text-lg">Apply for mentorship, resources, and accelerator guidance for your official project.</p>
         </div>
 
-        <div className="space-y-8 glass p-8 rounded-3xl border border-gray-200">
+        <div className="space-y-8 glass p-8 rounded-3xl border border-border">
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-gray-900/90">What makes this project truly innovative? *</label>
-            <textarea value={innovation} onChange={e => setInnovation(e.target.value)} rows={4} className="w-full bg-gray-100 border border-gray-200 rounded-xl p-4 text-gray-900 focus:outline-none focus:border-blue-500" placeholder="Describe your unique value proposition..." />
+            <label className="text-sm font-semibold text-foreground/90">What makes this project truly innovative? *</label>
+            <textarea value={innovation} onChange={e => setInnovation(e.target.value)} rows={4} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="Describe your unique value proposition..." />
           </div>
 
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-gray-900/90">Prototype / Demo Link</label>
-            <input type="text" value={prototype} onChange={e => setPrototype(e.target.value)} className="w-full bg-gray-100 border border-gray-200 rounded-xl p-4 text-gray-900 focus:outline-none focus:border-blue-500" placeholder="https://..." />
-            <p className="text-xs text-gray-500">Link to GitHub, Figma, or live deployment</p>
+            <label className="text-sm font-semibold text-foreground/90">Prototype / Demo Link</label>
+            <input type="text" value={prototype} onChange={e => setPrototype(e.target.value)} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="https://..." />
+            <p className="text-xs text-muted-foreground">Link to GitHub, Figma, or live deployment</p>
           </div>
 
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-gray-900/90">What resources do you need most right now? *</label>
-            <textarea value={resourcesNeeded} onChange={e => setResourcesNeeded(e.target.value)} rows={3} className="w-full bg-gray-100 border border-gray-200 rounded-xl p-4 text-gray-900 focus:outline-none focus:border-blue-500" placeholder="Cloud credits, specific APIs, domain expertise..." />
+            <label className="text-sm font-semibold text-foreground/90">What resources do you need most right now? *</label>
+            <textarea value={resourcesNeeded} onChange={e => setResourcesNeeded(e.target.value)} rows={3} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="Cloud credits, specific APIs, domain expertise..." />
           </div>
 
           <div className="space-y-4">
-            <label className="text-sm font-semibold text-gray-900/90">Type of Support Requested *</label>
+            <label className="text-sm font-semibold text-foreground/90">Type of Support Requested *</label>
             <div className="flex flex-wrap gap-3">
               {SUPPORT_TYPES.map(type => (
                 <button
@@ -92,8 +92,8 @@ function InnovationForm() {
                   onClick={() => toggleSupport(type)}
                   className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
                     supportRequested.includes(type) 
-                      ? 'bg-blue-600 border-blue-500 text-gray-900 shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
-                      : 'bg-gray-100 border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300'
+                      ? 'bg-blue-600 border-blue-500 text-foreground shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
+                      : 'bg-gray-100 border-border text-muted-foreground hover:text-foreground hover:border-gray-300'
                   }`}
                 >
                   {type}
@@ -102,11 +102,11 @@ function InnovationForm() {
             </div>
           </div>
 
-          <div className="pt-6 border-t border-gray-200 flex justify-end">
+          <div className="pt-6 border-t border-border flex justify-end">
             <button 
               onClick={submit} 
               disabled={submitting || !innovation || !resourcesNeeded || supportRequested.length === 0}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-gray-900 px-8 py-4 rounded-xl font-bold transition-all shadow-lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 disabled:opacity-50 text-foreground px-8 py-4 rounded-xl font-bold transition-all shadow-lg"
             >
               {submitting ? "Submitting..." : "Submit Application"}
             </button>
@@ -119,7 +119,7 @@ function InnovationForm() {
 
 export default function NewInnovationPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-gray-900">Loading...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-foreground">Loading...</div>}>
       <InnovationForm />
     </Suspense>
   )

@@ -24,13 +24,13 @@ export default function WorkspaceSidebar({ workspaceName }: { workspaceName: str
   const base = `/workspace/${id}`
 
   return (
-    <aside className="w-60 flex-shrink-0 flex flex-col border-r border-gray-200 h-full bg-gray-50/50">
+    <aside className="w-60 flex-shrink-0 flex flex-col border-r border-border h-full bg-muted/50">
       {/* Logo + workspace name */}
-      <div className="h-16 flex items-center px-4 gap-3 border-b border-gray-200 flex-shrink-0">
+      <div className="h-16 flex items-center px-4 gap-3 border-b border-border flex-shrink-0">
         <BrandLogo showText={false} />
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Workspace</p>
-          <p className="text-sm font-semibold text-gray-900 truncate">{workspaceName}</p>
+          <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Workspace</p>
+          <p className="text-sm font-semibold text-foreground truncate">{workspaceName}</p>
         </div>
       </div>
 
@@ -45,8 +45,8 @@ export default function WorkspaceSidebar({ workspaceName }: { workspaceName: str
             <Link key={item.label} href={href}>
               <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-gray-200 text-gray-900"
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                  ? "bg-gray-200 text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-gray-100"
               }`}>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
@@ -59,11 +59,11 @@ export default function WorkspaceSidebar({ workspaceName }: { workspaceName: str
       </nav>
 
       {/* Bottom user */}
-      <div className="px-4 py-3 border-t border-gray-200 flex items-center gap-3">
+      <div className="px-4 py-3 border-t border-border flex items-center gap-3">
         <div className="w-7 h-7 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-xs font-bold text-blue-400">ME</div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs text-gray-900 font-medium truncate">You</p>
-          <p className="text-xs text-gray-500">Active</p>
+          <p className="text-xs text-foreground font-medium truncate">You</p>
+          <p className="text-xs text-muted-foreground">Active</p>
         </div>
         <div className="w-2 h-2 rounded-full bg-green-400" />
       </div>

@@ -109,7 +109,7 @@ export default function TeamDetailPage() {
 
   if (loading) {
     return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center">
+      <div className="h-screen bg-background flex items-center justify-center">
         <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
       </div>
     )
@@ -117,10 +117,10 @@ export default function TeamDetailPage() {
 
   if (!team) {
     return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center text-center">
+      <div className="h-screen bg-background flex items-center justify-center text-center">
         <div>
           <h2 className="text-xl font-semibold mb-2">Team not found</h2>
-          <Link href="/teams"><Button variant="outline" className="border-gray-200 text-gray-900">Back to Teams</Button></Link>
+          <Link href="/teams"><Button variant="outline" className="border-border text-foreground">Back to Teams</Button></Link>
         </div>
       </div>
     )
@@ -135,7 +135,7 @@ export default function TeamDetailPage() {
   // Premium team completion state
   if (isComplete) {
     return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="h-screen bg-background flex items-center justify-center p-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -152,7 +152,7 @@ export default function TeamDetailPage() {
           <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
             Your team is ready.
           </h1>
-          <p className="text-xl text-gray-500 mb-2">{team.name}</p>
+          <p className="text-xl text-muted-foreground mb-2">{team.name}</p>
           <p className="text-lg text-blue-400 mb-8">
             {activeMembers.length} builders. 1 idea. Let&apos;s make it real.
           </p>
@@ -182,7 +182,7 @@ export default function TeamDetailPage() {
               Create Workspace
             </Button>
             <Link href="/teams">
-              <Button variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100">
+              <Button variant="outline" className="border-border text-foreground hover:bg-gray-100">
                 Browse Teams
               </Button>
             </Link>
@@ -193,10 +193,10 @@ export default function TeamDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground flex flex-col">
-      <header className="h-16 border-b border-gray-200 flex items-center px-6 justify-between glass sticky top-0 z-50">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <header className="h-16 border-b border-border flex items-center px-6 justify-between glass sticky top-0 z-50">
         <div className="flex items-center gap-4">
-          <Link href="/teams" className="text-gray-500 hover:text-gray-900 transition-colors">
+          <Link href="/teams" className="text-muted-foreground hover:text-foreground transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
           </Link>
           <BrandLogo showText={false} />
@@ -213,20 +213,20 @@ export default function TeamDetailPage() {
               <div>
                 <span className={`text-xs px-2 py-1 rounded border font-medium ${catColor}`}>{team.category}</span>
                 <h1 className="text-3xl font-bold tracking-tight mt-2">{team.name}</h1>
-                {team.projectIdea && <p className="text-gray-500 mt-1 italic">&ldquo;{team.projectIdea}&rdquo;</p>}
+                {team.projectIdea && <p className="text-muted-foreground mt-1 italic">&ldquo;{team.projectIdea}&rdquo;</p>}
               </div>
               {isOwner && (
                 <span className="text-xs px-2 py-1 rounded border border-yellow-500/30 text-yellow-400 bg-yellow-400/10 whitespace-nowrap">Team Owner</span>
               )}
             </div>
-            {team.description && <p className="text-sm text-gray-500 leading-relaxed">{team.description}</p>}
+            {team.description && <p className="text-sm text-muted-foreground leading-relaxed">{team.description}</p>}
           </div>
 
           {/* Progress */}
-          <div className="p-5 glass rounded-2xl border border-gray-200">
+          <div className="p-5 glass rounded-2xl border border-border">
             <div className="flex justify-between items-center mb-3">
               <h2 className="font-semibold">Team Completion</h2>
-              <span className="text-sm font-mono text-gray-500">{activeMembers.length} / {team.targetSize}</span>
+              <span className="text-sm font-mono text-muted-foreground">{activeMembers.length} / {team.targetSize}</span>
             </div>
             <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-3">
               <motion.div
@@ -236,24 +236,24 @@ export default function TeamDetailPage() {
                 className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
               />
             </div>
-            <p className="text-xs text-gray-500">{team.targetSize - activeMembers.length} spots remaining</p>
+            <p className="text-xs text-muted-foreground">{team.targetSize - activeMembers.length} spots remaining</p>
           </div>
 
           {/* Required Roles */}
           {team.roles.length > 0 && (
-            <div className="p-5 glass rounded-2xl border border-gray-200">
+            <div className="p-5 glass rounded-2xl border border-border">
               <h2 className="font-semibold mb-4">Required Roles</h2>
               <div className="space-y-3">
                 {team.roles.map(r => (
                   <div key={r.id} className="flex items-center justify-between">
-                    <span className="text-sm text-gray-900">{r.roleName}</span>
+                    <span className="text-sm text-foreground">{r.roleName}</span>
                     <div className="flex items-center gap-2">
                       <div className="flex gap-1">
                         {Array.from({ length: r.count }).map((_, i) => (
                           <div key={i} className={`w-3 h-3 rounded-full border ${i < r.filled ? "bg-green-500 border-green-500" : "bg-transparent border-gray-300"}`} />
                         ))}
                       </div>
-                      <span className="text-xs text-gray-500">{r.filled}/{r.count}</span>
+                      <span className="text-xs text-muted-foreground">{r.filled}/{r.count}</span>
                     </div>
                   </div>
                 ))}
@@ -262,10 +262,10 @@ export default function TeamDetailPage() {
           )}
 
           {/* Tabs */}
-          <div className="border-b border-gray-200 flex">
+          <div className="border-b border-border flex">
             {(["members", ...(isOwner ? ["candidates", "invites"] : [])] as typeof activeTab[]).map(t => (
               <button key={t} onClick={() => setActiveTab(t as typeof activeTab)}
-                className={`px-5 py-3 text-sm font-medium capitalize border-b-2 -mb-px transition-colors ${activeTab === t ? "border-blue-500 text-gray-900" : "border-transparent text-gray-500 hover:text-gray-900"}`}
+                className={`px-5 py-3 text-sm font-medium capitalize border-b-2 -mb-px transition-colors ${activeTab === t ? "border-blue-500 text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
               >
                 {t === "candidates" ? "Smart Matches" : t.charAt(0).toUpperCase() + t.slice(1)}
                 {t === "invites" && team.invites.length > 0 && (
@@ -279,17 +279,17 @@ export default function TeamDetailPage() {
           {activeTab === "members" && (
             <div className="space-y-3">
               {activeMembers.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">No active members yet.</div>
+                <div className="text-center py-12 text-muted-foreground">No active members yet.</div>
               ) : (
                 activeMembers.map(m => (
-                  <div key={m.id} className="p-4 glass rounded-xl border border-gray-200 flex items-center justify-between">
+                  <div key={m.id} className="p-4 glass rounded-xl border border-border flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-xs font-bold text-blue-400">
                         {(m.user.anonymousId || "?").slice(-2)}
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{m.user.anonymousId || "Anonymous"}</p>
-                        <p className="text-xs text-gray-500">{m.user.academic?.branch} • {m.user.academic?.year}</p>
+                        <p className="text-sm font-medium text-foreground">{m.user.anonymousId || "Anonymous"}</p>
+                        <p className="text-xs text-muted-foreground">{m.user.academic?.branch} • {m.user.academic?.year}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -297,7 +297,7 @@ export default function TeamDetailPage() {
                         <span className="text-xs px-2 py-0.5 rounded border border-yellow-500/30 text-yellow-400">Owner</span>
                       )}
                       {isOwner && m.user.id !== MOCK_USER_ID && (
-                        <button onClick={() => handleRemoveMember(m.user.id)} className="text-xs text-gray-500 hover:text-red-400 transition-colors px-2">Remove</button>
+                        <button onClick={() => handleRemoveMember(m.user.id)} className="text-xs text-muted-foreground hover:text-red-400 transition-colors px-2">Remove</button>
                       )}
                     </div>
                   </div>
@@ -310,21 +310,21 @@ export default function TeamDetailPage() {
           {activeTab === "candidates" && isOwner && (
             <div className="space-y-3">
               {candidates.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">No candidates available.</div>
+                <div className="text-center py-12 text-muted-foreground">No candidates available.</div>
               ) : (
                 candidates.map(c => (
-                  <div key={c.id} className="p-5 glass rounded-xl border border-gray-200 hover:border-gray-300 transition-all">
+                  <div key={c.id} className="p-5 glass rounded-xl border border-border hover:border-gray-300 transition-all">
                     <div className="flex items-start justify-between gap-4 mb-3">
                       <div>
-                        <h3 className="font-semibold text-gray-900">{c.anonymousId}</h3>
-                        <p className="text-xs text-gray-500">{c.branch} • {c.year}</p>
+                        <h3 className="font-semibold text-foreground">{c.anonymousId}</h3>
+                        <p className="text-xs text-muted-foreground">{c.branch} • {c.year}</p>
                         {c.suggestedRole && (
                           <span className="text-xs px-2 py-0.5 rounded border border-blue-500/30 text-blue-400 mt-1 inline-block">{c.suggestedRole}</span>
                         )}
                       </div>
                       <div className="flex flex-col items-end gap-2">
                         <span className={`text-xs font-mono px-2 py-0.5 rounded ${c.matchScore > 70 ? "text-green-400 bg-green-400/10" : "text-yellow-400 bg-yellow-400/10"}`}>{c.matchScore}%</span>
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-gray-900 text-xs"
+                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-foreground text-xs"
                           disabled={inviting === c.id}
                           onClick={() => handleInvite(c.id)}
                         >
@@ -335,7 +335,7 @@ export default function TeamDetailPage() {
                     <p className="text-xs text-blue-200/60 bg-blue-900/20 p-2 rounded border border-blue-900/30 italic">{c.matchExplanation}</p>
                     <div className="flex flex-wrap gap-1.5 mt-3">
                       {c.skills.slice(0, 4).map(s => (
-                        <span key={s} className="text-xs px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-900/70">{s}</span>
+                        <span key={s} className="text-xs px-2 py-0.5 rounded bg-gray-100 border border-border text-foreground/70">{s}</span>
                       ))}
                     </div>
                   </div>
@@ -348,15 +348,15 @@ export default function TeamDetailPage() {
           {activeTab === "invites" && isOwner && (
             <div className="space-y-3">
               {team.invites.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">No pending invites.</div>
+                <div className="text-center py-12 text-muted-foreground">No pending invites.</div>
               ) : (
                 team.invites.map(inv => (
-                  <div key={inv.id} className="p-4 glass rounded-xl border border-gray-200 flex items-center justify-between">
+                  <div key={inv.id} className="p-4 glass rounded-xl border border-border flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{inv.invitee.anonymousId || "Anonymous"}</p>
+                      <p className="text-sm font-medium text-foreground">{inv.invitee.anonymousId || "Anonymous"}</p>
                       <p className="text-xs text-yellow-400">Pending</p>
                     </div>
-                    <button onClick={() => handleCancelInvite(inv.invitee.id)} className="text-xs text-gray-500 hover:text-red-400 transition-colors">Cancel</button>
+                    <button onClick={() => handleCancelInvite(inv.invitee.id)} className="text-xs text-muted-foreground hover:text-red-400 transition-colors">Cancel</button>
                   </div>
                 ))
               )}
@@ -366,32 +366,32 @@ export default function TeamDetailPage() {
 
         {/* Right sidebar */}
         <div className="space-y-5">
-          <div className="p-5 glass rounded-2xl border border-gray-200">
-            <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Details</h3>
+          <div className="p-5 glass rounded-2xl border border-border">
+            <h3 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Details</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-500">Status</span>
+                <span className="text-muted-foreground">Status</span>
                 <span className={`text-xs px-2 py-0.5 rounded border ${team.isOpen ? "border-green-500/30 text-green-400" : "border-red-500/30 text-red-400"}`}>
                   {team.isOpen ? "Open" : "Closed"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Target Size</span>
-                <span className="text-gray-900">{team.targetSize} members</span>
+                <span className="text-muted-foreground">Target Size</span>
+                <span className="text-foreground">{team.targetSize} members</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Current</span>
-                <span className="text-gray-900">{activeMembers.length} active</span>
+                <span className="text-muted-foreground">Current</span>
+                <span className="text-foreground">{activeMembers.length} active</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Owner</span>
-                <span className="text-gray-900">{team.owner.anonymousId || "Anonymous"}</span>
+                <span className="text-muted-foreground">Owner</span>
+                <span className="text-foreground">{team.owner.anonymousId || "Anonymous"}</span>
               </div>
             </div>
           </div>
 
           {!isOwner && team.isOpen && (
-            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-gray-900">
+            <Button className="w-full bg-blue-600 hover:bg-blue-700 text-foreground">
               Request to Join
             </Button>
           )}

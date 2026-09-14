@@ -46,8 +46,8 @@ export default function TeamsPage() {
   }, [category])
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground flex flex-col">
-      <header className="h-16 border-b border-gray-200 flex items-center px-6 justify-between glass sticky top-0 z-50">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <header className="h-16 border-b border-border flex items-center px-6 justify-between glass sticky top-0 z-50">
         <div className="flex items-center gap-8">
           <Link href="/dashboard"><BrandLogo showText={false} /></Link>
           <nav className="hidden md:flex gap-6 text-sm">
@@ -93,7 +93,7 @@ export default function TeamsPage() {
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : teams.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center border border-gray-200 rounded-2xl bg-gray-50">
+          <div className="flex flex-col items-center justify-center py-24 text-center border border-border rounded-2xl bg-card">
             <div className="text-5xl mb-4">🚀</div>
             <h3 className="text-xl font-semibold mb-2">No open teams yet</h3>
             <p className="text-gray-500 max-w-sm mb-6">Be the first to create a team and find your collaborators.</p>
@@ -110,48 +110,77 @@ export default function TeamsPage() {
               const skills = team.requiredSkills ? team.requiredSkills.split(",").filter(Boolean) : []
 
               return (
-                <Link href={`/teams/${team.id}`} key={team.id}>
-                  <div className="p-6 glass rounded-2xl border border-gray-200 hover:border-gray-300 transition-all h-full flex flex-col group cursor-pointer">
-                    <div className="flex justify-between items-start mb-3">
-                      <span className={`text-xs px-2 py-1 rounded border font-medium ${catColor}`}>{team.category}</span>
-                      <span className="text-xs text-gray-500">{activeCount}/{team.targetSize} members</span>
+                <Link href={`/teams/${team.id}`} key={team.id} className="block h-full group">
+                  <div className="p-6 glass bg-card text-card-foreground rounded-2xl border border-border hover:border-orange-500 hover:shadow-xl transition-all h-full flex flex-col relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none group-hover:bg-orange-500/10 transition-colors"></div>
+                    
+                    <div className="flex justify-between items-start mb-4 relative z-10">
+                      <span className={`text-xs px-2.5 py-1 rounded-md border font-semibold tracking-wide uppercase ${catColor}`}>{team.category}</span>
                     </div>
 
-                    <h2 className="font-bold text-lg text-gray-900 mb-1 group-hover:text-blue-400 transition-colors">{team.name}</h2>
-                    {team.projectIdea && (
-                      <p className="text-sm text-gray-500 mb-3 line-clamp-2">{team.projectIdea}</p>
-                    )}
+                    <h2 className="font-extrabold text-xl text-[#111827] dark:text-white mb-2 group-hover:text-orange-600 transition-colors relative z-10">{team.name}</h2>
+                    
+                    <div className="mb-4 relative z-10">
+                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Project Vision</p>
+                       <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+                         {team.projectIdea || team.description || "No vision provided."}
+                       </p>
+                    </div>
 
-                    {/* Progress bar */}
-                    <div className="mb-4">
-                      <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                    {/* Progress Status */}
+                    <div className="mb-5 relative z-10">
+                      <div className="flex justify-between items-end mb-1.5">
+                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Progress Status</p>
+                         <span className="text-xs font-semibold text-gray-700">{pct}% Complete</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden border border-gray-200">
+                        <div className="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
                       </div>
                     </div>
 
-                    {/* Role slots */}
-                    {team.roles.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {team.roles.slice(0, 4).map(r => (
-                          <span key={r.roleName} className={`text-xs px-2 py-0.5 rounded border ${r.filled >= r.count ? "border-green-500/30 text-green-400" : "border-gray-200 text-gray-500"}`}>
-                            {r.roleName}
-                          </span>
-                        ))}
-                        {team.roles.length > 4 && <span className="text-xs text-gray-500">+{team.roles.length - 4}</span>}
-                      </div>
-                    )}
+                    {/* Open Roles */}
+                    <div className="mb-5 relative z-10">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Open Roles</p>
+                      {team.roles.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {team.roles.slice(0, 4).map(r => (
+                            <span key={r.roleName} className={`text-xs px-2.5 py-1 rounded-md border shadow-sm ${r.filled >= r.count ? "bg-green-50 border-green-200 text-green-700 font-medium" : "bg-white border-gray-200 text-gray-700"}`}>
+                              {r.roleName} {r.filled}/{r.count}
+                            </span>
+                          ))}
+                          {team.roles.length > 4 && <span className="text-xs text-gray-500 px-2 py-1 bg-gray-50 rounded-md border border-gray-200">+{team.roles.length - 4}</span>}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-gray-500 italic">No specific roles listed</p>
+                      )}
+                    </div>
 
-                    {/* Required skills */}
-                    {skills.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-auto">
-                        {skills.slice(0, 3).map(s => (
-                          <span key={s} className="text-xs px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-900/70">{s}</span>
-                        ))}
-                      </div>
-                    )}
+                    {/* Tech Stack Tags */}
+                    <div className="mb-5 relative z-10">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tech Stack</p>
+                      {skills.length > 0 ? (
+                        <div className="flex flex-wrap gap-2">
+                          {skills.slice(0, 3).map(s => (
+                            <span key={s} className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted border border-border text-foreground">{s}</span>
+                          ))}
+                          {skills.length > 3 && <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-muted border border-border text-foreground">+{skills.length - 3}</span>}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-gray-500 italic">No tech stack specified</p>
+                      )}
+                    </div>
 
-                    <div className="mt-4 pt-4 border-t border-gray-200 text-xs text-gray-500">
-                      by {team.owner.anonymousId || "Anonymous"}
+                    <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center relative z-10">
+                      <div className="flex items-center gap-2">
+                         <div className="w-6 h-6 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center text-[10px] font-bold text-orange-600">
+                            {team.owner.anonymousId?.substring(0,2).toUpperCase() || "AN"}
+                         </div>
+                         <span className="text-xs text-gray-600 font-medium">{team.owner.anonymousId || "Anonymous"}</span>
+                      </div>
+                      <div className="text-xs font-semibold px-2.5 py-1 bg-gray-50 rounded-md border border-gray-200 text-gray-600 shadow-sm flex items-center gap-1.5">
+                         <svg className="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                         {activeCount} / {team.targetSize} Size
+                      </div>
                     </div>
                   </div>
                 </Link>

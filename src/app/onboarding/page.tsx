@@ -23,7 +23,7 @@ export default function OnboardingFlow() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex flex-col relative overflow-hidden">
       <div className="absolute top-8 left-8">
         <BrandLogo />
       </div>
@@ -51,7 +51,7 @@ export default function OnboardingFlow() {
                 >
                   <div>
                     <h2 className="text-2xl font-bold">Academic Profile</h2>
-                    <p className="text-gray-500">Tell us about your educational background.</p>
+                    <p className="text-muted-foreground">Tell us about your educational background.</p>
                   </div>
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -80,7 +80,7 @@ export default function OnboardingFlow() {
                 >
                   <div>
                     <h2 className="text-2xl font-bold">Skills & Interests</h2>
-                    <p className="text-gray-500">What do you bring to the table?</p>
+                    <p className="text-muted-foreground">What do you bring to the table?</p>
                   </div>
                   <div className="space-y-4">
                     <div className="space-y-2">
@@ -105,14 +105,14 @@ export default function OnboardingFlow() {
                 >
                   <div>
                     <h2 className="text-2xl font-bold">Your Goals</h2>
-                    <p className="text-gray-500">What are you looking to achieve?</p>
+                    <p className="text-muted-foreground">What are you looking to achieve?</p>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     {["Team", "Hackathon", "Startup", "Research", "Open Source", "College Project"].map(goal => (
                       <div 
                         key={goal} 
                         onClick={() => setSelectedGoal(goal)}
-                        className={`p-4 border rounded-xl cursor-pointer transition-colors text-sm text-center ${selectedGoal === goal ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-gray-200 hover:bg-gray-100 text-gray-900'}`}
+                        className={`p-4 border rounded-xl cursor-pointer transition-colors text-sm text-center ${selectedGoal === goal ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-border hover:bg-gray-100 text-foreground'}`}
                       >
                         {goal}
                       </div>
@@ -131,7 +131,7 @@ export default function OnboardingFlow() {
                 >
                   <div>
                     <h2 className="text-3xl font-bold mb-4">Privacy First</h2>
-                    <p className="text-gray-500 max-w-sm mx-auto mb-8">
+                    <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                       We never expose your email, phone, or exact address.
                     </p>
                     <div className="p-6 border border-blue-500/30 bg-blue-500/10 rounded-2xl mb-8">
@@ -145,9 +145,9 @@ export default function OnboardingFlow() {
             </AnimatePresence>
           </div>
 
-          <div className="flex gap-4 mt-8 pt-6 border-t border-gray-200">
+          <div className="flex gap-4 mt-8 pt-6 border-t border-border">
             {step > 1 && (
-              <Button variant="outline" onClick={prevStep} className="flex-1 border-gray-200 text-gray-900">
+              <Button variant="outline" onClick={prevStep} className="flex-1 border-border text-foreground">
                 Back
               </Button>
             )}

@@ -130,21 +130,21 @@ export default function ConversationPage() {
   const SELF = "current-user-id"
 
   return (
-    <div className="h-screen bg-gray-50 text-foreground flex flex-col">
+    <div className="h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
-      <header className="h-16 border-b border-gray-200 flex items-center px-6 justify-between glass z-50 flex-shrink-0">
+      <header className="h-16 border-b border-border flex items-center px-6 justify-between glass z-50 flex-shrink-0">
         <div className="flex items-center gap-4">
-          <Link href="/messages" className="text-gray-500 hover:text-gray-900 transition-colors">
+          <Link href="/messages" className="text-muted-foreground hover:text-foreground transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
           <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-xs font-bold text-blue-400">A</div>
           <div>
-            <h2 className="font-semibold text-sm text-gray-900">Anonymous Student</h2>
+            <h2 className="font-semibold text-sm text-foreground">Anonymous Student</h2>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400"></div>
-              <span className="text-xs text-gray-500">Online</span>
+              <span className="text-xs text-muted-foreground">Online</span>
             </div>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function ConversationPage() {
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-500 hover:text-gray-900"
+            className="text-muted-foreground hover:text-foreground"
             onClick={() => setShowSearch(!showSearch)}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -164,12 +164,12 @@ export default function ConversationPage() {
 
       {/* Search bar */}
       {showSearch && (
-        <div className="flex-shrink-0 border-b border-gray-200 px-4 py-2">
+        <div className="flex-shrink-0 border-b border-border px-4 py-2">
           <Input
             placeholder="Search messages..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="bg-gray-100 border-gray-200 text-sm"
+            className="bg-gray-100 border-border text-sm"
             autoFocus
           />
         </div>
@@ -185,7 +185,7 @@ export default function ConversationPage() {
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <p className="text-2xl mb-3">👋</p>
             <h3 className="font-semibold text-lg mb-1">Say hello!</h3>
-            <p className="text-sm text-gray-500">This is the beginning of your private conversation.</p>
+            <p className="text-sm text-muted-foreground">This is the beginning of your private conversation.</p>
           </div>
         ) : (
           filteredMessages.map((msg, i) => {
@@ -197,12 +197,12 @@ export default function ConversationPage() {
             return (
               <div key={msg.id} className={`flex flex-col ${isSelf ? "items-end" : "items-start"} ${isGrouped ? "mt-0.5" : "mt-4"}`}>
                 {!isGrouped && !isSelf && (
-                  <span className="text-xs text-gray-500 mb-1 ml-1">{msg.sender.anonymousId || "Student"}</span>
+                  <span className="text-xs text-muted-foreground mb-1 ml-1">{msg.sender.anonymousId || "Student"}</span>
                 )}
 
                 {/* Reply preview */}
                 {msg.replyToId && (
-                  <div className={`text-xs text-gray-500 border-l-2 border-gray-300 pl-2 mb-1 max-w-xs truncate ${isSelf ? "border-blue-500/50" : ""}`}>
+                  <div className={`text-xs text-muted-foreground border-l-2 border-gray-300 pl-2 mb-1 max-w-xs truncate ${isSelf ? "border-blue-500/50" : ""}`}>
                     ↩ Replying to a message
                   </div>
                 )}
@@ -210,24 +210,24 @@ export default function ConversationPage() {
                 <div className="group flex items-end gap-2">
                   {isSelf && (
                     <div className="hidden group-hover:flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => { setEditingId(msg.id); setEditContent(msg.content) }} className="text-xs text-gray-500 hover:text-gray-900 px-1">Edit</button>
-                      <button onClick={() => deleteMessage(msg.id)} className="text-xs text-gray-500 hover:text-red-400 px-1">Delete</button>
+                      <button onClick={() => { setEditingId(msg.id); setEditContent(msg.content) }} className="text-xs text-muted-foreground hover:text-foreground px-1">Edit</button>
+                      <button onClick={() => deleteMessage(msg.id)} className="text-xs text-muted-foreground hover:text-red-400 px-1">Delete</button>
                     </div>
                   )}
 
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm leading-relaxed break-words ${
                       msg.isDeleted
-                        ? "bg-gray-100 text-gray-500 italic"
+                        ? "bg-gray-100 text-muted-foreground italic"
                         : isSelf
-                        ? "bg-blue-600 text-gray-900 rounded-br-sm"
-                        : "bg-gray-200 text-gray-900 rounded-bl-sm"
+                        ? "bg-blue-600 text-foreground rounded-br-sm"
+                        : "bg-gray-200 text-foreground rounded-bl-sm"
                     }`}
                   >
                     {editingId === msg.id ? (
                       <div className="flex gap-2">
                         <input
-                          className="bg-transparent outline-none flex-1 text-gray-900"
+                          className="bg-transparent outline-none flex-1 text-foreground"
                           value={editContent}
                           onChange={e => setEditContent(e.target.value)}
                           onKeyDown={e => { if (e.key === "Enter") editMessage(msg.id); if (e.key === "Escape") setEditingId(null) }}
@@ -245,14 +245,14 @@ export default function ConversationPage() {
 
                   {!isSelf && (
                     <div className="hidden group-hover:flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button onClick={() => setReplyTo(msg)} className="text-xs text-gray-500 hover:text-gray-900 px-1">↩</button>
-                      <button onClick={() => setReportTarget(msg.id)} className="text-xs text-gray-500 hover:text-red-400 px-1">Report</button>
+                      <button onClick={() => setReplyTo(msg)} className="text-xs text-muted-foreground hover:text-foreground px-1">↩</button>
+                      <button onClick={() => setReportTarget(msg.id)} className="text-xs text-muted-foreground hover:text-red-400 px-1">Report</button>
                     </div>
                   )}
                 </div>
 
                 {!isGrouped && (
-                  <span className="text-[10px] text-gray-500 mt-1 mx-1">{timeStr}</span>
+                  <span className="text-[10px] text-muted-foreground mt-1 mx-1">{timeStr}</span>
                 )}
               </div>
             )
@@ -263,28 +263,28 @@ export default function ConversationPage() {
 
       {/* Reply Preview */}
       {replyTo && (
-        <div className="flex-shrink-0 mx-4 mb-1 px-4 py-2 bg-gray-100 rounded-t-lg border border-gray-200 border-b-0 flex justify-between items-center">
-          <div className="text-xs text-gray-500">
+        <div className="flex-shrink-0 mx-4 mb-1 px-4 py-2 bg-gray-100 rounded-t-lg border border-border border-b-0 flex justify-between items-center">
+          <div className="text-xs text-muted-foreground">
             <span className="text-blue-400">Replying to:</span> <span className="truncate max-w-xs inline-block align-bottom">{replyTo.content}</span>
           </div>
-          <button onClick={() => setReplyTo(null)} className="text-gray-500 hover:text-gray-900 text-xs ml-2">✕</button>
+          <button onClick={() => setReplyTo(null)} className="text-muted-foreground hover:text-foreground text-xs ml-2">✕</button>
         </div>
       )}
 
       {/* Input */}
-      <div className={`flex-shrink-0 border-t border-gray-200 px-4 py-3 flex gap-3 items-center ${replyTo ? "border-t-0" : ""}`}>
+      <div className={`flex-shrink-0 border-t border-border px-4 py-3 flex gap-3 items-center ${replyTo ? "border-t-0" : ""}`}>
         <Input
           ref={inputRef}
           placeholder="Type a message..."
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-          className="flex-1 bg-gray-100 border-gray-200 focus:border-blue-500/50"
+          className="flex-1 bg-gray-100 border-border focus:border-blue-500/50"
         />
         <Button
           onClick={sendMessage}
           disabled={!input.trim() || sending}
-          className="bg-blue-600 hover:bg-blue-700 text-gray-900 flex-shrink-0"
+          className="bg-blue-600 hover:bg-blue-700 text-foreground flex-shrink-0"
         >
           {sending ? (
             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -298,10 +298,10 @@ export default function ConversationPage() {
 
       {/* Report Modal */}
       {reportTarget && (
-        <div className="fixed inset-0 bg-gray-50/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass rounded-2xl border border-gray-200 p-6 w-full max-w-sm space-y-4">
+        <div className="fixed inset-0 bg-muted/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="glass rounded-2xl border border-border p-6 w-full max-w-sm space-y-4">
             <h3 className="text-lg font-semibold">Report this message</h3>
-            <p className="text-sm text-gray-500">Help us keep the community safe.</p>
+            <p className="text-sm text-muted-foreground">Help us keep the community safe.</p>
             <div className="grid grid-cols-2 gap-2">
               {REPORT_REASONS.map(r => (
                 <button
@@ -309,8 +309,8 @@ export default function ConversationPage() {
                   onClick={() => setReportReason(r)}
                   className={`p-3 text-xs rounded-xl border transition-colors text-left ${
                     reportReason === r
-                      ? "border-blue-500 bg-blue-500/10 text-gray-900"
-                      : "border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300"
+                      ? "border-blue-500 bg-blue-500/10 text-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground hover:border-gray-300"
                   }`}
                 >
                   {r}
@@ -318,8 +318,8 @@ export default function ConversationPage() {
               ))}
             </div>
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" className="flex-1 border-gray-200 text-gray-900" onClick={() => { setReportTarget(null); setReportReason("") }}>Cancel</Button>
-              <Button className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900" disabled={!reportReason} onClick={submitReport}>Submit Report</Button>
+              <Button variant="outline" className="flex-1 border-border text-foreground" onClick={() => { setReportTarget(null); setReportReason("") }}>Cancel</Button>
+              <Button className="flex-1 bg-red-600 hover:bg-red-700 text-foreground" disabled={!reportReason} onClick={submitReport}>Submit Report</Button>
             </div>
           </div>
         </div>

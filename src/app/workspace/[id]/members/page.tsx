@@ -35,16 +35,16 @@ export default function WorkspaceMembers() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50/40 p-6 md:p-12">
+    <div className="flex-1 overflow-y-auto bg-muted/40 p-6 md:p-12">
       <div className="max-w-4xl mx-auto space-y-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Members</h1>
-          <p className="text-gray-500">Manage workspace access and roles.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Members</h1>
+          <p className="text-muted-foreground">Manage workspace access and roles.</p>
         </div>
 
-        <div className="glass rounded-2xl border border-gray-200 overflow-hidden">
+        <div className="glass rounded-2xl border border-border overflow-hidden">
           <table className="w-full text-sm text-left">
-            <thead className="bg-gray-100 border-b border-gray-200 text-gray-500 text-xs uppercase tracking-wider">
+            <thead className="bg-gray-100 border-b border-border text-muted-foreground text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4 font-medium">Member</th>
                 <th className="px-6 py-4 font-medium">Role</th>
@@ -54,15 +54,15 @@ export default function WorkspaceMembers() {
             </thead>
             <tbody className="divide-y divide-white/5">
               {members.map(m => (
-                <tr key={m.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={m.id} className="hover:bg-muted transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-sm font-bold text-blue-400">
                         {m.user.anonymousId.slice(-2)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{m.user.anonymousId}</p>
-                        <p className="text-xs text-gray-500">{m.user.academic?.branch || 'Unknown'} • {m.user.academic?.year || 'Unknown'}</p>
+                        <p className="font-medium text-foreground">{m.user.anonymousId}</p>
+                        <p className="text-xs text-muted-foreground">{m.user.academic?.branch || 'Unknown'} • {m.user.academic?.year || 'Unknown'}</p>
                       </div>
                     </div>
                   </td>
@@ -70,12 +70,12 @@ export default function WorkspaceMembers() {
                     <span className={`text-xs px-2 py-1 rounded border font-medium ${
                       m.role === 'OWNER' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
                       m.role === 'ADMIN' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
-                      'bg-gray-100 text-gray-500 border-gray-200'
+                      'bg-gray-100 text-muted-foreground border-border'
                     }`}>
                       {m.role}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-gray-500 hidden sm:table-cell">
+                  <td className="px-6 py-4 text-muted-foreground hidden sm:table-cell">
                     {new Date(m.joinedAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-right">

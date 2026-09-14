@@ -50,15 +50,15 @@ export default function ConnectionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground flex flex-col">
-      <header className="h-16 border-b border-gray-200 flex items-center px-6 justify-between glass sticky top-0 z-50">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <header className="h-16 border-b border-border flex items-center px-6 justify-between glass sticky top-0 z-50">
         <div className="flex items-center gap-8">
            <Link href="/dashboard"><BrandLogo showText={false} /></Link>
            <nav className="hidden md:flex gap-6 text-sm">
-             <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Dashboard</Link>
-             <Link href="/discover" className="text-gray-500 hover:text-gray-900 transition-colors">Discover</Link>
-             <Link href="/connections" className="text-gray-900 font-medium">Connections</Link>
-             <Link href="/messages" className="text-gray-500 hover:text-gray-900 transition-colors">Messages</Link>
+             <Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
+             <Link href="/discover" className="text-muted-foreground hover:text-foreground transition-colors">Discover</Link>
+             <Link href="/connections" className="text-foreground font-medium">Connections</Link>
+             <Link href="/messages" className="text-muted-foreground hover:text-foreground transition-colors">Messages</Link>
            </nav>
         </div>
         <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-xs font-bold text-blue-400">ME</div>
@@ -67,19 +67,19 @@ export default function ConnectionsPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full p-6 space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight mb-1">Connections</h1>
-          <p className="text-gray-500">Manage your network requests and connections.</p>
+          <p className="text-muted-foreground">Manage your network requests and connections.</p>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200">
+        <div className="flex border-b border-border">
           {TABS.map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`px-6 py-3 text-sm font-medium capitalize transition-colors border-b-2 -mb-px ${
                 tab === t
-                  ? "border-blue-500 text-gray-900"
-                  : "border-transparent text-gray-500 hover:text-gray-900"
+                  ? "border-blue-500 text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
               {t === "connections" ? "My Connections" : t === "received" ? "Received" : "Sent"}
@@ -92,7 +92,7 @@ export default function ConnectionsPage() {
             <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center border border-gray-200 rounded-2xl bg-gray-50">
+          <div className="flex flex-col items-center justify-center py-24 text-center border border-border rounded-2xl bg-muted">
             <div className="w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
               <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -101,7 +101,7 @@ export default function ConnectionsPage() {
             <h3 className="text-xl font-semibold mb-2">
               {tab === "received" ? "No pending requests" : tab === "sent" ? "No sent requests" : "No connections yet"}
             </h3>
-            <p className="text-gray-500 max-w-sm mb-6">
+            <p className="text-muted-foreground max-w-sm mb-6">
               {tab === "connections" ? "Your next teammate is out there." : "Nothing here yet."}
             </p>
             {tab === "connections" && (
@@ -116,25 +116,25 @@ export default function ConnectionsPage() {
               const isReceived = tab === "received"
               const otherUser = isReceived ? item.sender : item.receiver
               return (
-                <div key={item.id} className="p-5 glass rounded-2xl border border-gray-200 hover:border-gray-300 transition-all flex items-center justify-between gap-4">
+                <div key={item.id} className="p-5 glass rounded-2xl border border-border hover:border-gray-300 transition-all flex items-center justify-between gap-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-0.5">{otherUser.anonymousId || "Anonymous Student"}</h3>
-                    <p className="text-sm text-gray-500">
+                    <h3 className="font-semibold text-foreground mb-0.5">{otherUser.anonymousId || "Anonymous Student"}</h3>
+                    <p className="text-sm text-muted-foreground">
                       {otherUser.academic?.branch} • {otherUser.academic?.year}
                     </p>
                     {isReceived && (
-                      <p className="text-xs text-gray-500 mt-1">wants to connect with you.</p>
+                      <p className="text-xs text-muted-foreground mt-1">wants to connect with you.</p>
                     )}
                   </div>
                   <div className="flex gap-2 flex-shrink-0">
                     {tab === "received" && (
                       <>
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-gray-900" onClick={() => handleAction(item.id, "ACCEPT")}>Accept</Button>
-                        <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100" onClick={() => handleAction(item.id, "DECLINE")}>Decline</Button>
+                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-foreground" onClick={() => handleAction(item.id, "ACCEPT")}>Accept</Button>
+                        <Button size="sm" variant="outline" className="border-border text-foreground hover:bg-gray-100" onClick={() => handleAction(item.id, "DECLINE")}>Decline</Button>
                       </>
                     )}
                     {tab === "sent" && (
-                      <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100" onClick={() => handleAction(item.id, "CANCEL")}>Cancel</Button>
+                      <Button size="sm" variant="outline" className="border-border text-foreground hover:bg-gray-100" onClick={() => handleAction(item.id, "CANCEL")}>Cancel</Button>
                     )}
                     {tab === "connections" && (
                       <Link href="/messages">

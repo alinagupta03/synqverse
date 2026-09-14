@@ -27,6 +27,11 @@ export default function DiscoverPage() {
   const [search, setSearch] = useState("")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   
+  // Connect Modal State
+  const [connectModalOpen, setConnectModalOpen] = useState(false)
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null)
+  const [connectNote, setConnectNote] = useState("")
+  
   // Filters
   const [branchFilter, setBranchFilter] = useState("")
 
@@ -53,30 +58,107 @@ export default function DiscoverPage() {
 
   const [toast, setToast] = useState<string | null>(null)
 
-  const handleAction = (actionName: string, id: string) => {
-    setToast(`${actionName} successful for ${id}.`)
+  const handleAction = (actionName: string, p?: Profile) => {
+    if (actionName === 'Connect' && p) {
+      setSelectedProfile(p)
+      setConnectModalOpen(true)
+      return
+    }
+    setToast(`${actionName} successful.`)
     setTimeout(() => setToast(null), 3000)
   }
 
+  const sendConnectionRequest = () => {
+    setConnectModalOpen(false)
+    setToast(`Connection request sent to ${selectedProfile?.anonymousId}!`)
+    setTimeout(() => setToast(null), 3000)
+    setConnectNote("")
+  }
+
+  const ALL_BRANCHES = [
+    "CSE", "IT", "ECE", "EEE", "Mechanical", "Civil", 
+    "Chemical", "Aerospace", "AI & Data Science", "Biotechnology", "Design"
+  ]
+
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground flex flex-col relative">
+    <div className="min-h-screen bg-background text-foreground flex flex-col relative">
       {toast && (
         <div className="fixed bottom-6 right-6 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-2xl z-50 animate-in slide-in-from-bottom-5">
           {toast}
         </div>
       )}
-      <header className="h-16 border-b border-gray-200 flex items-center px-6 justify-between glass sticky top-0 z-50">
+      {/* Connect Modal */}
+      {connectModalOpen && selectedProfile && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setConnectModalOpen(false)} />
+           <div className="bg-card text-card-foreground border border-border rounded-2xl shadow-2xl max-w-md w-full relative z-10 overflow-hidden animate-in zoom-in-95 duration-200">
+              <div className="p-6">
+                 <h2 className="text-xl font-bold mb-1">{selectedProfile.anonymousId}</h2>
+                 <p className="text-sm text-gray-500 mb-6">{selectedProfile.stream} {selectedProfile.branch} • {selectedProfile.year}</p>
+                 
+                 <div className="mb-6">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Interests & Skills</label>
+                    <div className="flex flex-wrap gap-2">
+                       {[...(selectedProfile.skills || []), ...(selectedProfile.interests || [])].slice(0, 6).map(tag => (
+                          <span key={tag} className="text-xs px-2 py-1 bg-gray-100 rounded-md border border-gray-200 text-gray-700">{tag}</span>
+                       ))}
+                    </div>
+                 </div>
+
+                 <div className="mb-6">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Add a note (optional)</label>
+                    <textarea 
+                       className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none h-24"
+                       placeholder="Hi! I saw we share an interest in..."
+                       value={connectNote}
+                       onChange={(e) => setConnectNote(e.target.value)}
+                    ></textarea>
+                 </div>
+                 
+                 <div className="flex gap-3">
+                    <Button variant="outline" className="flex-1" onClick={() => setConnectModalOpen(false)}>Cancel</Button>
+                    <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" onClick={sendConnectionRequest}>
+                       Send Connection Request
+                    </Button>
+                 </div>
+              </div>
+           </div>
+        </div>
+      )}
+
+      <header className="h-16 border-b border-border flex items-center px-6 justify-between glass sticky top-0 z-50">
         <div className="flex items-center gap-8">
            <Link href="/dashboard"><BrandLogo showText={false} /></Link>
            <nav className="hidden md:flex gap-6 text-sm">
              <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Dashboard</Link>
              <Link href="/discover" className="text-gray-900 font-medium">Discover</Link>
-             <Link href="/network" className="text-gray-500 hover:text-gray-900 transition-colors">My Network</Link>
+             <Link href="/connections" className="text-gray-500 hover:text-gray-900 transition-colors">My Network</Link>
            </nav>
         </div>
-        <div className="flex items-center gap-4">
-           <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-xs font-bold text-blue-400">
+        <div className="flex items-center gap-4 relative">
+           <button 
+             className="w-9 h-9 rounded-full bg-orange-500/10 border border-orange-500 flex items-center justify-center text-xs font-bold text-orange-600 hover:bg-orange-500/20 transition cursor-pointer outline-none focus:ring-2 focus:ring-orange-500/50"
+             onClick={(e) => {
+                e.stopPropagation()
+                const menu = document.getElementById('discover-profile-menu')
+                if (menu) menu.classList.toggle('hidden')
+             }}
+           >
              ME
+           </button>
+           
+           <div 
+             id="discover-profile-menu" 
+             className="hidden absolute top-12 right-0 w-56 bg-white border border-gray-200 rounded-xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2"
+           >
+             <Link href="/settings/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600 transition-colors">
+                View Profile
+             </Link>
+             <div className="border-t border-gray-100 mt-1 pt-1">
+               <Link href="/login" className="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium">
+                  Log out
+               </Link>
+             </div>
            </div>
         </div>
       </header>
@@ -90,7 +172,7 @@ export default function DiscoverPage() {
                  placeholder="Search skills, interests..." 
                  value={search}
                  onChange={(e) => setSearch(e.target.value)}
-                 className="bg-gray-100 border-gray-200"
+                 className="bg-muted border-border"
                />
             </div>
             
@@ -99,17 +181,23 @@ export default function DiscoverPage() {
                
                <div className="space-y-2">
                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Branch</label>
-                 <select 
-                    className="w-full bg-gray-100 border border-gray-200 rounded-md p-2 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    value={branchFilter}
-                    onChange={(e) => setBranchFilter(e.target.value)}
-                 >
-                    <option value="">All Branches</option>
-                    <option value="CSE">CSE</option>
-                    <option value="ECE">ECE</option>
-                    <option value="Mechanical">Mechanical</option>
-                    <option value="Design">Design</option>
-                 </select>
+                 <div className="flex flex-wrap gap-2 mt-2">
+                    <button 
+                       className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${branchFilter === "" ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
+                       onClick={() => setBranchFilter("")}
+                    >
+                       All
+                    </button>
+                    {ALL_BRANCHES.map(branch => (
+                       <button 
+                         key={branch}
+                         className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${branchFilter === branch ? 'bg-orange-500 text-white border-orange-500' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}
+                         onClick={() => setBranchFilter(branch)}
+                       >
+                         {branch}
+                       </button>
+                    ))}
+                 </div>
                </div>
                
                <div className="space-y-2">
@@ -152,7 +240,7 @@ export default function DiscoverPage() {
                  <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                </div>
             ) : profiles.length === 0 ? (
-               <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] text-center border border-gray-200 rounded-2xl bg-gray-50">
+               <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] text-center border border-border rounded-2xl bg-card">
                   <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mb-4">
                      <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -164,14 +252,14 @@ export default function DiscoverPage() {
             ) : (
                <div className={viewMode === "grid" ? "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
                  {profiles.map(p => (
-                   <div key={p.id} className="p-6 glass rounded-2xl border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-300 group flex flex-col h-full bg-white/50 backdrop-blur-md relative overflow-hidden">
+                   <div key={p.id} className="p-6 glass rounded-2xl border border-border hover:border-blue-400 hover:shadow-xl transition-all duration-300 group flex flex-col h-full bg-card text-card-foreground relative overflow-hidden">
                      {/* Premium decorative gradient orb */}
                      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                      
                      <div className="flex justify-between items-start mb-4 relative z-10">
                         <div>
-                           <h3 className="font-bold text-lg text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">{p.anonymousId}</h3>
-                           <p className="text-sm text-gray-500 font-medium">
+                           <h3 className="font-bold text-lg text-[#111827] dark:text-white mb-1 group-hover:text-blue-600 transition-colors">{p.anonymousId}</h3>
+                           <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
                               {p.stream} {p.branch} • {p.year}
                            </p>
                         </div>
@@ -191,7 +279,7 @@ export default function DiscoverPage() {
                            <div className="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-widest">Top Skills</div>
                            <div className="flex flex-wrap gap-2">
                               {(p.skills || []).slice(0, 4).map(s => (
-                                 <span key={s} className="text-xs px-2.5 py-1 rounded-md bg-white border border-gray-200 text-gray-700 shadow-sm hover:border-blue-300 transition-colors cursor-default">
+                                 <span key={s} className="text-xs px-2.5 py-1 rounded-md bg-muted border border-border text-foreground shadow-sm hover:border-blue-300 transition-colors cursor-default">
                                     {s}
                                  </span>
                               ))}
@@ -217,9 +305,9 @@ export default function DiscoverPage() {
                      </div>
 
                      <div className="grid grid-cols-2 gap-3 mt-6 pt-5 border-t border-gray-100 relative z-10">
-                        <Button variant="outline" size="sm" className="w-full border-gray-200 hover:bg-gray-50 hover:text-red-600 transition-colors text-xs font-semibold" onClick={() => handleAction('Pass', p.anonymousId)}>Pass</Button>
-                        <Button variant="outline" size="sm" className="w-full border-gray-200 hover:bg-gray-50 hover:text-blue-600 transition-colors text-xs font-semibold" onClick={() => handleAction('Save', p.anonymousId)}>Save</Button>
-                        <Button size="sm" className="w-full col-span-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white mt-1 font-bold shadow-md hover:shadow-lg transition-all" onClick={() => handleAction('Connect', p.anonymousId)}>Connect</Button>
+                        <Button variant="outline" size="sm" className="w-full border-gray-200 hover:bg-gray-50 hover:text-red-600 transition-colors text-xs font-semibold" onClick={() => handleAction('Pass')}>Pass</Button>
+                        <Button variant="outline" size="sm" className="w-full border-gray-200 hover:bg-gray-50 hover:text-orange-600 transition-colors text-xs font-semibold" onClick={() => handleAction('Save')}>Save</Button>
+                        <Button size="sm" className="w-full col-span-2 bg-orange-500 hover:bg-orange-600 text-white mt-1 font-bold shadow-md hover:shadow-lg transition-all" onClick={() => handleAction('Connect', p)}>Connect</Button>
                      </div>
                    </div>
                  ))}

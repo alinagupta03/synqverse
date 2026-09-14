@@ -78,10 +78,10 @@ export default function WorkspaceChat() {
   return (
     <div className="flex-1 flex overflow-hidden">
       {/* Channels Sidebar */}
-      <div className="w-56 border-r border-gray-200 bg-gray-50/20 flex flex-col hidden sm:flex">
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="font-semibold text-gray-900">Channels</h2>
-          <button className="text-gray-500 hover:text-gray-900">+</button>
+      <div className="w-56 border-r border-border bg-muted/20 flex flex-col hidden sm:flex">
+        <div className="p-4 border-b border-border flex justify-between items-center">
+          <h2 className="font-semibold text-foreground">Channels</h2>
+          <button className="text-muted-foreground hover:text-foreground">+</button>
         </div>
         <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
           {channels.map(c => (
@@ -89,7 +89,7 @@ export default function WorkspaceChat() {
               key={c.id}
               onClick={() => setActiveChannelId(c.id)}
               className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-colors ${
-                activeChannelId === c.id ? "bg-gray-200 text-gray-900 font-medium" : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+                activeChannelId === c.id ? "bg-gray-200 text-foreground font-medium" : "text-muted-foreground hover:text-foreground hover:bg-gray-100"
               }`}
             >
               # {c.name}
@@ -99,15 +99,15 @@ export default function WorkspaceChat() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-gray-50/40">
+      <div className="flex-1 flex flex-col bg-muted/40">
         {/* Header */}
-        <div className="h-14 border-b border-gray-200 flex items-center px-4 shrink-0 glass">
-          <h2 className="font-bold text-gray-900 flex items-center gap-2">
-            <span className="text-gray-500">#</span>
+        <div className="h-14 border-b border-border flex items-center px-4 shrink-0 glass">
+          <h2 className="font-bold text-foreground flex items-center gap-2">
+            <span className="text-muted-foreground">#</span>
             {activeChannel?.name || "Select a channel"}
           </h2>
           {activeChannel?.description && (
-            <span className="ml-4 text-sm text-gray-500 hidden md:inline border-l border-gray-200 pl-4">
+            <span className="ml-4 text-sm text-muted-foreground hidden md:inline border-l border-border pl-4">
               {activeChannel.description}
             </span>
           )}
@@ -118,8 +118,8 @@ export default function WorkspaceChat() {
           {messages.length === 0 ? (
             <div className="h-full flex flex-col justify-end">
               <div className="text-center pb-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Welcome to #{activeChannel?.name}</h3>
-                <p className="text-gray-500 text-sm">This is the start of the #{activeChannel?.name} channel.</p>
+                <h3 className="text-xl font-bold text-foreground mb-2">Welcome to #{activeChannel?.name}</h3>
+                <p className="text-muted-foreground text-sm">This is the start of the #{activeChannel?.name} channel.</p>
               </div>
             </div>
           ) : (
@@ -131,8 +131,8 @@ export default function WorkspaceChat() {
                 <div key={msg.id} className={`group ${!showHeader ? "mt-1" : ""}`}>
                   {showHeader && (
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-gray-900 text-sm">{msg.sender.anonymousId || "Unknown"}</span>
-                      <span className="text-xs text-gray-500">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                      <span className="font-medium text-foreground text-sm">{msg.sender.anonymousId || "Unknown"}</span>
+                      <span className="text-xs text-muted-foreground">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                   )}
                   <div className="flex items-start gap-4">
@@ -142,12 +142,12 @@ export default function WorkspaceChat() {
                       </div>
                     ) : (
                       <div className="w-8 shrink-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                         <span className="text-[10px] text-gray-500 leading-5">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                         <span className="text-[10px] text-muted-foreground leading-5">{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                     )}
-                    <div className={`text-sm flex-1 ${msg.isDeleted ? "text-gray-500 italic" : "text-gray-200"} leading-relaxed whitespace-pre-wrap`}>
+                    <div className={`text-sm flex-1 ${msg.isDeleted ? "text-muted-foreground italic" : "text-gray-200"} leading-relaxed whitespace-pre-wrap`}>
                       {msg.content}
-                      {msg.isEdited && !msg.isDeleted && <span className="text-[10px] text-gray-500 ml-2">(edited)</span>}
+                      {msg.isEdited && !msg.isDeleted && <span className="text-[10px] text-muted-foreground ml-2">(edited)</span>}
                     </div>
                     {/* Action Menu (Report) */}
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center">
@@ -183,20 +183,20 @@ export default function WorkspaceChat() {
         </div>
 
         {/* Input */}
-        <div className="p-4 shrink-0 bg-gray-50/60">
+        <div className="p-4 shrink-0 bg-muted/60">
           <form onSubmit={sendMessage} className="relative">
             <input
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder={`Message #${activeChannel?.name || "..."}`}
-              className="w-full bg-gray-100 border border-gray-200 rounded-xl pl-4 pr-12 py-3 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full bg-gray-100 border border-border rounded-xl pl-4 pr-12 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 transition-colors"
               disabled={!activeChannelId}
             />
             <button
               type="submit"
               disabled={!input.trim() || sending || !activeChannelId}
-              className="absolute right-2 top-2 bottom-2 w-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 disabled:bg-gray-100 disabled:text-gray-500 text-gray-900 rounded-lg transition-colors"
+              className="absolute right-2 top-2 bottom-2 w-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 disabled:bg-gray-100 disabled:text-muted-foreground text-foreground rounded-lg transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
             </button>

@@ -58,13 +58,13 @@ export default function WorkspaceTasks() {
   }
 
   return (
-    <div className="flex-1 overflow-x-auto bg-gray-50/40 p-6">
+    <div className="flex-1 overflow-x-auto bg-muted/40 p-6">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">Tasks</h1>
-          <p className="text-gray-500 text-sm">Manage your team&apos;s workflow.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Tasks</h1>
+          <p className="text-muted-foreground text-sm">Manage your team&apos;s workflow.</p>
         </div>
-        <button onClick={() => setShowNewTaskModal(true)} className="bg-blue-600 hover:bg-blue-700 text-gray-900 px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20">
+        <button onClick={() => setShowNewTaskModal(true)} className="bg-blue-600 hover:bg-blue-700 text-foreground px-4 py-2 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20">
           New Task
         </button>
       </div>
@@ -73,16 +73,16 @@ export default function WorkspaceTasks() {
         {STATUSES.map(status => {
           const columnTasks = tasks.filter(t => t.status === status)
           return (
-            <div key={status} className="flex-shrink-0 w-80 bg-[#111]/50 rounded-2xl flex flex-col border border-gray-200">
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50/20 rounded-t-2xl">
-                <h3 className="font-semibold text-gray-900/90 text-sm">{status.replace('_', ' ')}</h3>
-                <span className="text-xs bg-gray-200 text-gray-500 px-2 py-0.5 rounded-full">{columnTasks.length}</span>
+            <div key={status} className="flex-shrink-0 w-80 bg-[#111]/50 rounded-2xl flex flex-col border border-border">
+              <div className="p-4 border-b border-border flex justify-between items-center bg-muted/20 rounded-t-2xl">
+                <h3 className="font-semibold text-foreground/90 text-sm">{status.replace('_', ' ')}</h3>
+                <span className="text-xs bg-gray-200 text-muted-foreground px-2 py-0.5 rounded-full">{columnTasks.length}</span>
               </div>
               
               <div className="flex-1 p-3 overflow-y-auto space-y-3">
                 {columnTasks.map(task => (
-                  <div key={task.id} className="glass p-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-all cursor-pointer group">
-                    <p className="text-sm text-gray-900/90 mb-3 leading-snug">{task.title}</p>
+                  <div key={task.id} className="glass p-4 rounded-xl border border-border hover:border-gray-300 transition-all cursor-pointer group">
+                    <p className="text-sm text-foreground/90 mb-3 leading-snug">{task.title}</p>
                     <div className="flex justify-between items-center">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${PRIORITY_COLORS[task.priority] || PRIORITY_COLORS.MEDIUM}`}>
                         {task.priority}
@@ -90,7 +90,7 @@ export default function WorkspaceTasks() {
                       <select 
                         value={task.status} 
                         onChange={(e) => updateTaskStatus(task.id, e.target.value)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity bg-gray-50/50 border border-gray-200 rounded text-xs text-gray-500 p-1"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity bg-muted/50 border border-border rounded text-xs text-muted-foreground p-1"
                       >
                         {STATUSES.map(s => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}
                       </select>
@@ -99,8 +99,8 @@ export default function WorkspaceTasks() {
                 ))}
                 
                 {columnTasks.length === 0 && (
-                  <div className="h-24 flex items-center justify-center border-2 border-dashed border-gray-200 rounded-xl">
-                    <span className="text-xs text-gray-500/50">Empty</span>
+                  <div className="h-24 flex items-center justify-center border-2 border-dashed border-border rounded-xl">
+                    <span className="text-xs text-muted-foreground/50">Empty</span>
                   </div>
                 )}
               </div>
@@ -110,13 +110,13 @@ export default function WorkspaceTasks() {
       </div>
 
       {showNewTaskModal && (
-        <div className="fixed inset-0 bg-gray-50/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#111] border border-gray-200 rounded-2xl p-6 w-full max-w-md">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">New Task</h3>
+        <div className="fixed inset-0 bg-muted/80 flex items-center justify-center p-4 z-50">
+          <div className="bg-[#111] border border-border rounded-2xl p-6 w-full max-w-md">
+            <h3 className="text-xl font-bold text-foreground mb-4">New Task</h3>
             <div className="space-y-4">
-              <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Task title..." className="w-full bg-gray-100 border border-gray-200 rounded-xl p-3 text-gray-900 focus:outline-none focus:border-blue-500" />
+              <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Task title..." className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500" />
               <div className="flex gap-4">
-                <select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value)} className="w-full bg-gray-100 border border-gray-200 rounded-xl p-3 text-gray-900 focus:outline-none focus:border-blue-500">
+                <select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value)} className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500">
                   <option value="LOW">Low Priority</option>
                   <option value="MEDIUM">Medium Priority</option>
                   <option value="HIGH">High Priority</option>
@@ -124,8 +124,8 @@ export default function WorkspaceTasks() {
                 </select>
               </div>
               <div className="flex justify-end gap-3 mt-6">
-                <button onClick={() => setShowNewTaskModal(false)} className="px-4 py-2 text-gray-500 hover:text-gray-900 transition-colors">Cancel</button>
-                <button onClick={() => createTask("TODO")} disabled={!newTaskTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-gray-900 px-4 py-2 rounded-xl font-medium transition-colors">Create Task</button>
+                <button onClick={() => setShowNewTaskModal(false)} className="px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">Cancel</button>
+                <button onClick={() => createTask("TODO")} disabled={!newTaskTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-foreground px-4 py-2 rounded-xl font-medium transition-colors">Create Task</button>
               </div>
             </div>
           </div>

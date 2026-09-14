@@ -19,22 +19,22 @@ export default function UserSafetyDashboard() {
   if (loading) return <div className="p-12 text-center"><div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" /></div>
 
   return (
-    <div className="min-h-screen bg-gray-50 text-foreground pt-10 pb-20 px-6">
+    <div className="min-h-screen bg-background text-foreground pt-10 pb-20 px-6">
       <div className="max-w-4xl mx-auto space-y-12">
         <div>
           <Link href="/dashboard" className="text-blue-400 text-sm hover:underline mb-4 inline-block">← Back to Dashboard</Link>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-2">Trust & Safety Hub</h1>
-          <p className="text-gray-500">Manage your account standing and earned reputation.</p>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-2">Trust & Safety Hub</h1>
+          <p className="text-muted-foreground">Manage your account standing and earned reputation.</p>
         </div>
 
         {/* Active Restrictions */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900">Account Status</h2>
+          <h2 className="text-xl font-bold text-foreground">Account Status</h2>
           {!data || data.activeActions.length === 0 ? (
             <div className="glass p-6 rounded-2xl border border-green-500/20 bg-green-500/5 flex items-center gap-4">
               <div className="w-10 h-10 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center text-xl">✓</div>
               <div>
-                <h3 className="font-bold text-gray-900">Good Standing</h3>
+                <h3 className="font-bold text-foreground">Good Standing</h3>
                 <p className="text-sm text-green-400/80">You have no active warnings or restrictions.</p>
               </div>
             </div>
@@ -47,7 +47,7 @@ export default function UserSafetyDashboard() {
                     <h3 className="text-lg font-bold text-red-400 flex items-center gap-2">
                       ⚠️ Community {action.actionType.replace('_', ' ')}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1">Issued {new Date(action.createdAt).toLocaleDateString()}</p>
+                    <p className="text-sm text-muted-foreground mt-1">Issued {new Date(action.createdAt).toLocaleDateString()}</p>
                   </div>
                   {action.endTime && (
                     <span className="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold rounded-lg uppercase tracking-wider">
@@ -55,9 +55,9 @@ export default function UserSafetyDashboard() {
                     </span>
                   )}
                 </div>
-                <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-200 space-y-2">
-                  <p className="text-sm"><span className="text-gray-500">Reason:</span> <span className="text-gray-900">{action.reason}</span></p>
-                  <p className="text-sm"><span className="text-gray-500">Restriction:</span> <span className="text-gray-900">
+                <div className="bg-muted/50 p-4 rounded-xl border border-border space-y-2">
+                  <p className="text-sm"><span className="text-muted-foreground">Reason:</span> <span className="text-foreground">{action.reason}</span></p>
+                  <p className="text-sm"><span className="text-muted-foreground">Restriction:</span> <span className="text-foreground">
                     {action.actionType === 'TEMP_COMM' ? 'Messaging disabled.' : 
                      action.actionType === 'TEMP_ACCOUNT' ? 'Account login temporarily restricted.' :
                      action.actionType === 'SUSPENSION' ? 'Permanent suspension.' : 'Warning only.'}
@@ -70,13 +70,13 @@ export default function UserSafetyDashboard() {
 
         {/* Trust Badges */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-gray-900">Trust Badges</h2>
-          <p className="text-sm text-gray-500 mb-4">Badges earned through meaningful behavior and collaboration.</p>
+          <h2 className="text-xl font-bold text-foreground">Trust Badges</h2>
+          <p className="text-sm text-muted-foreground mb-4">Badges earned through meaningful behavior and collaboration.</p>
           
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {(!data || data.badges.length === 0) && (
-              <div className="col-span-full p-8 text-center glass border border-gray-200 rounded-2xl">
-                <p className="text-gray-500">No badges earned yet.</p>
+              <div className="col-span-full p-8 text-center glass border border-border rounded-2xl">
+                <p className="text-muted-foreground">No badges earned yet.</p>
               </div>
             )}
             
@@ -88,7 +88,7 @@ export default function UserSafetyDashboard() {
                    badge.badgeName.includes('Builder') ? '🛠️' : '✨'}
                 </div>
                 <div>
-                  <p className="font-bold text-sm text-gray-900">{badge.badgeName}</p>
+                  <p className="font-bold text-sm text-foreground">{badge.badgeName}</p>
                   <p className="text-[10px] text-blue-400 mt-1">Earned {new Date(badge.earnedAt).toLocaleDateString()}</p>
                 </div>
               </div>

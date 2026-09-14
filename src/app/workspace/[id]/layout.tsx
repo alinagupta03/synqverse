@@ -20,17 +20,17 @@ export default function WorkspaceLayout({ children }: { children: React.ReactNod
   }, [id])
 
   return (
-    <div className="h-screen bg-gray-50 text-foreground flex overflow-hidden">
+    <div className="h-screen bg-background text-foreground flex overflow-hidden">
       {/* Mobile Toggle Bar */}
-      <div className="md:hidden absolute top-0 left-0 w-full h-14 border-b border-gray-200 bg-[#0a0a0a] z-50 flex items-center px-4 justify-between">
-        <span className="font-bold text-gray-900 text-sm">{workspaceName}</span>
-        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-gray-900 p-2">
+      <div className="md:hidden absolute top-0 left-0 w-full h-14 border-b border-border bg-[#0a0a0a] z-50 flex items-center px-4 justify-between">
+        <span className="font-bold text-foreground text-sm">{workspaceName}</span>
+        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-foreground p-2">
           {mobileMenuOpen ? '✕' : '☰'}
         </button>
       </div>
 
       {/* Sidebar */}
-      <div className={`${mobileMenuOpen ? 'absolute inset-0 z-40 bg-gray-50 pt-14 flex' : 'hidden'} md:relative md:pt-0 md:flex w-full md:w-auto h-full`}>
+      <div className={`${mobileMenuOpen ? 'absolute inset-0 z-40 bg-muted pt-14 flex' : 'hidden'} md:relative md:pt-0 md:flex w-full md:w-auto h-full`}>
         <WorkspaceSidebar workspaceName={workspaceName} />
       </div>
 
