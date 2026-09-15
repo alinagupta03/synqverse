@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: synqverse
+    runtime: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npx prisma db push && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./prisma/dev.db
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        value: https://placeholder.supabase.co
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        value: placeholder-anon-key
+    disk:
+      name: synqverse-db
+      mountPath: /opt/render/project/src/prisma
+      sizeGB: 1
