@@ -50,7 +50,7 @@ export default function AccountSettingsPage() {
           <button 
             onClick={handleExportData} 
             disabled={isExporting}
-            className="bg-gray-200 hover:bg-gray-300 text-foreground px-6 py-2 rounded-xl font-medium transition-colors disabled:opacity-50"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-900 dark:text-gray-900 px-6 py-2 rounded-xl font-medium transition-colors disabled:opacity-50"
           >
             {isExporting ? 'Exporting...' : 'Export My Data'}
           </button>

@@ -99,11 +99,11 @@ export default function NewTeamPage() {
                 </div>
                 <div className="space-y-2">
                   <Label>Team Name *</Label>
-                  <Input placeholder="e.g. Neural Spark" value={name} onChange={e => setName(e.target.value)} className="bg-gray-100 border-border" />
+                  <Input placeholder="e.g. Neural Spark" value={name} onChange={e => setName(e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label>Project Idea</Label>
-                  <Input placeholder="In one line, what are you building?" value={projectIdea} onChange={e => setProjectIdea(e.target.value)} className="bg-gray-100 border-border" />
+                  <Input placeholder="In one line, what are you building?" value={projectIdea} onChange={e => setProjectIdea(e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label>Description</Label>
@@ -112,7 +112,7 @@ export default function NewTeamPage() {
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     rows={4}
-                    className="w-full bg-gray-100 border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+                    className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-md px-3 py-2 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"
                   />
                 </div>
                 <div className="space-y-2">
@@ -174,16 +174,16 @@ export default function NewTeamPage() {
 
                 <div className="space-y-2">
                   <Label>Required Skills (comma separated)</Label>
-                  <Input placeholder="React, Python, Figma..." value={requiredSkillsInput} onChange={e => setRequiredSkillsInput(e.target.value)} className="bg-gray-100 border-border" />
+                  <Input placeholder="React, Python, Figma..." value={requiredSkillsInput} onChange={e => setRequiredSkillsInput(e.target.value)} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Branch Preference</Label>
-                    <Input placeholder="e.g. CSE" value={branchPreference} onChange={e => setBranchPreference(e.target.value)} className="bg-gray-100 border-border" />
+                    <Input placeholder="e.g. CSE" value={branchPreference} onChange={e => setBranchPreference(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label>Stream Preference</Label>
-                    <Input placeholder="e.g. B.Tech" value={streamPreference} onChange={e => setStreamPreference(e.target.value)} className="bg-gray-100 border-border" />
+                    <Input placeholder="e.g. B.Tech" value={streamPreference} onChange={e => setStreamPreference(e.target.value)} />
                   </div>
                 </div>
               </motion.div>
@@ -208,7 +208,7 @@ export default function NewTeamPage() {
                 </div>
                 <div className="space-y-2">
                   <Label>Application Deadline (optional)</Label>
-                  <Input type="date" value={deadline} onChange={e => setDeadline(e.target.value)} className="bg-gray-100 border-border" />
+                  <Input type="date" value={deadline} onChange={e => setDeadline(e.target.value)} />
                 </div>
 
                 {/* Summary */}

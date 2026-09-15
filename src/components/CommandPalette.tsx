@@ -43,11 +43,11 @@ export function CommandPalette() {
             autoFocus
             type="text" 
             placeholder="Type a command or search..." 
-            className="flex-1 bg-transparent border-none text-foreground focus:outline-none focus:ring-0"
+            className="flex-1 bg-transparent border-none text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-0"
             value={query}
             onChange={e => setQuery(e.target.value)}
           />
-          <kbd className="text-xs bg-gray-100 text-muted-foreground px-2 py-1 rounded">ESC</kbd>
+          <kbd className="text-xs bg-muted dark:bg-slate-800 text-muted-foreground px-2 py-1 rounded">ESC</kbd>
         </div>
         
         <div className="max-h-80 overflow-y-auto p-2">

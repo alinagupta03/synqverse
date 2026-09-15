@@ -55,12 +55,12 @@ export function SynqAIPanel({ context, onApply }: { context: string, onApply?: (
               value={query}
               onChange={e => setQuery(e.target.value)}
               placeholder={`Describe your ${context}...`}
-              className="w-full bg-gray-100 border border-border rounded-xl p-3 text-sm text-foreground focus:outline-none focus:border-blue-500 resize-none h-24"
+              className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none h-24"
             />
             <button 
               onClick={runAnalysis}
               disabled={!query}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-foreground py-2 rounded-lg text-sm font-medium transition-colors"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2 rounded-lg text-sm font-medium transition-colors"
             >
               Analyze
             </button>

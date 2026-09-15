@@ -11,8 +11,8 @@ type Connection = {
   receiverId: string
   status: string
   createdAt: string
-  sender: { anonymousId: string | null; academic?: { branch: string | null; year: string | null } | null }
-  receiver: { anonymousId: string | null; academic?: { branch: string | null; year: string | null } | null }
+  sender: { anonymousId: string | null; academic?: { branch: string | null; stream?: string | null; year: string | null; universityName?: string | null } | null }
+  receiver: { anonymousId: string | null; academic?: { branch: string | null; stream?: string | null; year: string | null; universityName?: string | null } | null }
 }
 
 const TABS = ["received", "sent", "connections"] as const
@@ -41,12 +41,19 @@ export default function ConnectionsPage() {
   }
 
   const handleAction = async (connectionId: string, action: string) => {
-    await fetch("/api/connections", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ connectionId, action })
-    })
-    fetchConnections()
+    try {
+      await fetch("/api/connections", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ connectionId, action })
+      })
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("synq-activity-update"))
+      }
+      fetchConnections()
+    } catch (err) {
+      console.error("Failed to update connection:", err)
+    }
   }
 
   return (
@@ -64,21 +71,21 @@ export default function ConnectionsPage() {
         <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-500 flex items-center justify-center text-xs font-bold text-blue-400">ME</div>
       </header>
 
-      <main className="flex-1 max-w-4xl mx-auto w-full p-6 space-y-6">
+      <main className="flex-1 max-w-4xl mx-auto w-full p-4 sm:p-6 space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight mb-1">Connections</h1>
-          <p className="text-muted-foreground">Manage your network requests and connections.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-1">My Network & Connections</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">Manage your incoming requests, pending invites, and active connections.</p>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-border">
+        <div className="flex border-b border-border overflow-x-auto">
           {TABS.map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-6 py-3 text-sm font-medium capitalize transition-colors border-b-2 -mb-px ${
+              className={`px-4 sm:px-6 py-3 text-sm font-medium capitalize transition-colors border-b-2 -mb-px whitespace-nowrap ${
                 tab === t
-                  ? "border-blue-500 text-foreground"
+                  ? "border-orange-500 text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -89,56 +96,101 @@ export default function ConnectionsPage() {
 
         {loading ? (
           <div className="flex justify-center py-24">
-            <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 text-center border border-border rounded-2xl bg-muted">
-            <div className="w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex flex-col items-center justify-center py-16 sm:py-24 text-center border border-border rounded-2xl bg-card p-6">
+            <div className="w-16 h-16 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             </div>
             <h3 className="text-xl font-semibold mb-2">
               {tab === "received" ? "No pending requests" : tab === "sent" ? "No sent requests" : "No connections yet"}
             </h3>
-            <p className="text-muted-foreground max-w-sm mb-6">
-              {tab === "connections" ? "Your next teammate is out there." : "Nothing here yet."}
+            <p className="text-muted-foreground max-w-sm mb-6 text-sm sm:text-base">
+              {tab === "connections" ? "Connect with talented peers in the Discover section." : "Nothing here yet."}
             </p>
             {tab === "connections" && (
               <Link href="/discover">
-                <Button className="bg-orange-500 text-white hover:bg-orange-600">Discover Students</Button>
+                <Button className="bg-orange-500 text-white hover:bg-orange-600 font-bold">Discover Students</Button>
               </Link>
             )}
           </div>
         ) : (
           <div className="space-y-4">
             {items.map(item => {
-              const isReceived = tab === "received"
-              const otherUser = isReceived ? item.sender : item.receiver
+              const otherUser = tab === "received"
+                ? item.sender
+                : tab === "sent"
+                  ? item.receiver
+                  : (item.senderId === "current-user-id" ? item.receiver : item.sender)
+
+              const displayName = otherUser?.anonymousId || (otherUser as any)?.name || "Anonymous Student"
+              const branch = otherUser?.academic?.branch || "Engineering"
+              const stream = otherUser?.academic?.stream || ""
+              const year = otherUser?.academic?.year || ""
+              const academicSummary = [branch, stream, year].filter(Boolean).join(" • ")
+
               return (
-                <div key={item.id} className="p-5 glass rounded-2xl border border-border hover:border-gray-300 transition-all flex items-center justify-between gap-4">
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-0.5">{otherUser.anonymousId || "Anonymous Student"}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {otherUser.academic?.branch} • {otherUser.academic?.year}
-                    </p>
-                    {isReceived && (
-                      <p className="text-xs text-muted-foreground mt-1">wants to connect with you.</p>
-                    )}
+                <div 
+                  key={item.id} 
+                  className="p-4 sm:p-5 glass rounded-2xl border border-border hover:border-border/80 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-card text-card-foreground"
+                >
+                  <div className="flex items-center gap-3.5 min-w-0 w-full sm:w-auto">
+                    <div className="w-12 h-12 rounded-full bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-sm font-bold text-orange-500 shrink-0">
+                      {displayName.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase() || "ST"}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-semibold text-foreground truncate text-base">{displayName}</h3>
+                      <p className="text-sm text-muted-foreground truncate">{academicSummary}</p>
+                      {tab === "received" && (
+                        <p className="text-xs text-orange-500 dark:text-orange-400 mt-0.5 font-medium">Wants to connect with you</p>
+                      )}
+                      {tab === "sent" && (
+                        <p className="text-xs text-muted-foreground mt-0.5">Request pending approval</p>
+                      )}
+                      {tab === "connections" && (
+                        <p className="text-xs text-green-500 dark:text-green-400 mt-0.5 font-medium">Active Connection</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex gap-2 flex-shrink-0">
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border/40">
                     {tab === "received" && (
                       <>
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-foreground" onClick={() => handleAction(item.id, "ACCEPT")}>Accept</Button>
-                        <Button size="sm" variant="outline" className="border-border text-foreground hover:bg-gray-100" onClick={() => handleAction(item.id, "DECLINE")}>Decline</Button>
+                        <Button 
+                          size="sm" 
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4" 
+                          onClick={() => handleAction(item.id, "ACCEPT")}
+                        >
+                          Accept
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="border-border hover:bg-muted font-medium px-4" 
+                          onClick={() => handleAction(item.id, "DECLINE")}
+                        >
+                          Decline
+                        </Button>
                       </>
                     )}
                     {tab === "sent" && (
-                      <Button size="sm" variant="outline" className="border-border text-foreground hover:bg-gray-100" onClick={() => handleAction(item.id, "CANCEL")}>Cancel</Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="border-border hover:bg-muted font-medium px-4 text-xs" 
+                        onClick={() => handleAction(item.id, "CANCEL")}
+                      >
+                        Cancel Request
+                      </Button>
                     )}
                     {tab === "connections" && (
-                      <Link href="/messages">
-                        <Button size="sm" className="bg-orange-500 text-white hover:bg-orange-600">Message</Button>
+                      <Link href="/messages" className="w-full sm:w-auto">
+                        <Button size="sm" className="w-full sm:w-auto bg-orange-500 text-white hover:bg-orange-600 font-bold px-4">
+                          Message
+                        </Button>
                       </Link>
                     )}
                   </div>

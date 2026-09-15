@@ -169,7 +169,7 @@ export default function ConversationPage() {
             placeholder="Search messages..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="bg-gray-100 border-border text-sm"
+            className="text-sm"
             autoFocus
           />
         </div>
@@ -279,12 +279,12 @@ export default function ConversationPage() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-          className="flex-1 bg-gray-100 border-border focus:border-blue-500/50"
+          className="flex-1"
         />
         <Button
           onClick={sendMessage}
           disabled={!input.trim() || sending}
-          className="bg-blue-600 hover:bg-blue-700 text-foreground flex-shrink-0"
+          className="bg-blue-600 hover:bg-blue-700 text-white flex-shrink-0"
         >
           {sending ? (
             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

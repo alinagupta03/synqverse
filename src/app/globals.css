@@ -132,7 +132,7 @@ body {
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
   --border: #374151;
-  --input: #374151;
+  --input: #1E293B;
   --ring: #FF6B00;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
@@ -158,5 +158,49 @@ body {
   }
   html {
     @apply font-sans;
+  }
+
+  /* Universal accessible defaults for form controls */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+  textarea,
+  select {
+    color: var(--foreground);
+    background-color: var(--card);
+    border-color: var(--border);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--muted-foreground);
+    opacity: 1;
+  }
+
+  .dark input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+  .dark textarea,
+  .dark select {
+    color: #FFFFFF;
+    background-color: #1E293B;
+    border-color: #374151;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #94A3B8;
+    opacity: 1;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }

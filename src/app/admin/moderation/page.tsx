@@ -92,13 +92,13 @@ export default function AdminModerationQueue() {
                 value={actionReason} 
                 onChange={e => setActionReason(e.target.value)}
                 placeholder="Reason to show the user..."
-                className="w-full bg-muted/50 border border-border rounded-lg p-3 text-sm text-foreground focus:outline-none focus:border-red-500"
+                className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg p-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors resize-none"
                 rows={2}
               />
 
               <div className="flex items-center gap-4 text-sm text-foreground">
                 <span>Restriction Duration (Days):</span>
-                <input type="number" min="1" max="30" value={duration} onChange={e => setDuration(parseInt(e.target.value))} className="w-20 bg-muted/50 border border-border rounded-lg p-2 focus:outline-none focus:border-red-500" />
+                <input type="number" min="1" max="30" value={duration} onChange={e => setDuration(parseInt(e.target.value))} className="w-20 bg-card dark:bg-[#1E293B] border border-border rounded-lg p-2 text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors" />
               </div>
 
               <div className="grid grid-cols-2 gap-3 pt-4">

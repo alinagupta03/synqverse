@@ -202,35 +202,35 @@ export default function IdeaLab() {
             <div className="space-y-5">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Idea Title *</label>
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground" placeholder="e.g., Decentralized Learning Platform" />
+                <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., Decentralized Learning Platform" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">The Problem *</label>
-                <textarea value={problem} onChange={e => setProblem(e.target.value)} rows={3} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground resize-none" placeholder="What pain point are you solving?" />
+                <textarea value={problem} onChange={e => setProblem(e.target.value)} rows={3} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none" placeholder="What pain point are you solving?" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">The Solution *</label>
-                <textarea value={solution} onChange={e => setSolution(e.target.value)} rows={3} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground resize-none" placeholder="How does your idea fix this problem?" />
+                <textarea value={solution} onChange={e => setSolution(e.target.value)} rows={3} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none" placeholder="How does your idea fix this problem?" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Target Users</label>
-                  <input type="text" value={targetUsers} onChange={e => setTargetUsers(e.target.value)} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground" placeholder="e.g., College Students" />
+                  <input type="text" value={targetUsers} onChange={e => setTargetUsers(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., College Students" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Technology Stack</label>
-                  <input type="text" value={technology} onChange={e => setTechnology(e.target.value)} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground" placeholder="e.g., Next.js, AI" />
+                  <input type="text" value={technology} onChange={e => setTechnology(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., Next.js, AI" />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-foreground">Expected Impact</label>
-                <input type="text" value={expectedImpact} onChange={e => setExpectedImpact(e.target.value)} className="w-full bg-gray-100 border border-border rounded-lg px-4 py-2.5 text-sm text-foreground" placeholder="e.g., Reduce dropout rates by 15%" />
+                <input type="text" value={expectedImpact} onChange={e => setExpectedImpact(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2.5 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="e.g., Reduce dropout rates by 15%" />
               </div>
             </div>
 
             <div className="mt-8 flex justify-end gap-3">
-              <button onClick={() => setShowModal(false)} className="px-5 py-2.5 text-sm font-medium text-foreground hover:bg-gray-100 rounded-lg transition-colors">Cancel</button>
-              <button onClick={submitIdea} disabled={!title || !problem || !solution || submitting} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-foreground px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">
+              <button onClick={() => setShowModal(false)} className="px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted dark:hover:bg-slate-800 rounded-lg transition-colors">Cancel</button>
+              <button onClick={submitIdea} disabled={!title || !problem || !solution || submitting} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">
                 {submitting ? 'Submitting...' : 'Submit Idea'}
               </button>
             </div>

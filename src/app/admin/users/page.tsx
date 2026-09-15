@@ -42,9 +42,9 @@ export default function AdminUsersPage() {
             value={query} 
             onChange={e => setQuery(e.target.value)} 
             placeholder="Search email or anonymous ID..." 
-            className="w-80 bg-gray-100 border border-border rounded-lg p-2 text-sm text-foreground focus:outline-none focus:border-red-500" 
+            className="w-80 bg-card dark:bg-[#1E293B] border border-border rounded-lg p-2 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors" 
           />
-          <button type="submit" className="bg-gray-200 hover:bg-gray-300 text-foreground px-4 py-2 rounded-lg text-sm font-medium transition-colors">Search</button>
+          <button type="submit" className="bg-muted hover:bg-muted/80 text-foreground px-4 py-2 rounded-lg text-sm font-medium transition-colors">Search</button>
         </form>
       </div>
 

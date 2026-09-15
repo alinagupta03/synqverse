@@ -97,17 +97,17 @@ export default function WorkspaceNotes() {
                  value={editTitle}
                  onChange={e => setEditTitle(e.target.value)}
                  onBlur={saveNote}
-                 className="bg-transparent text-xl font-bold text-foreground focus:outline-none w-2/3"
+                 className="bg-transparent text-xl font-bold text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none w-2/3"
                  placeholder="Note Title"
                />
-               <button onClick={saveNote} className="text-xs bg-gray-200 hover:bg-gray-300 text-foreground px-3 py-1.5 rounded transition-colors">Save</button>
+               <button onClick={saveNote} className="text-xs bg-muted hover:bg-muted/80 text-foreground px-3 py-1.5 rounded transition-colors">Save</button>
             </div>
             <textarea
               value={editContent}
               onChange={e => setEditContent(e.target.value)}
               onBlur={saveNote}
               placeholder="Start typing..."
-              className="flex-1 w-full p-8 bg-transparent text-foreground resize-none focus:outline-none custom-scrollbar leading-relaxed"
+              className="flex-1 w-full p-8 bg-transparent text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 resize-none focus:outline-none custom-scrollbar leading-relaxed"
             />
           </>
         ) : (

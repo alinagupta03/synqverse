@@ -190,13 +190,13 @@ export default function WorkspaceChat() {
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder={`Message #${activeChannel?.name || "..."}`}
-              className="w-full bg-gray-100 border border-border rounded-xl pl-4 pr-12 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl pl-4 pr-12 py-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
               disabled={!activeChannelId}
             />
             <button
               type="submit"
               disabled={!input.trim() || sending || !activeChannelId}
-              className="absolute right-2 top-2 bottom-2 w-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 disabled:bg-gray-100 disabled:text-muted-foreground text-foreground rounded-lg transition-colors"
+              className="absolute right-2 top-2 bottom-2 w-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 disabled:bg-card dark:disabled:bg-[#1E293B] disabled:opacity-50 disabled:text-muted-foreground text-white rounded-lg transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
             </button>

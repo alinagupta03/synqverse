@@ -21,28 +21,38 @@ export async function GET(request: Request) {
     if (type === "students") {
       const users = await prisma.user.findMany({
         where: { 
-          id: { not: MOCK_USER_ID },
-          profile: { isNot: null }
+          id: { not: MOCK_USER_ID }
         },
-        include: { profile: true }
+        include: { 
+          profile: true, 
+          academic: true,
+          skills: { include: { skill: true } },
+          interests: { include: { interest: true } }
+        }
       })
 
       // Map to expected Frontend Profile Shape
       const mappedProfiles = users.map(user => {
         const p = user.profile
+        const a = user.academic
         return {
           id: user.id,
-          anonymousId: p?.anonymousId || `Student #${user.id.slice(0, 4)}`,
-          branch: p?.branch || "Computer Science",
-          stream: p?.stream || "B.Tech",
-          year: p?.year || "3rd Year",
-          skills: p?.skills ? JSON.parse(p.skills as string) : ["React", "TypeScript", "Node.js", "UI/UX"],
-          interests: p?.interests ? JSON.parse(p.interests as string) : ["Web3", "AI/ML", "Startups"],
+          userId: user.id,
+          anonymousId: user.anonymousId || `Student #${user.id.slice(0, 4)}`,
+          branch: a?.branch || "Computer Science",
+          stream: a?.stream || "B.Tech",
+          year: a?.year || "3rd Year",
+          skills: user.skills && user.skills.length > 0 
+            ? user.skills.map(s => s.skill.name) 
+            : ["React", "TypeScript", "Node.js", "UI/UX"],
+          interests: user.interests && user.interests.length > 0 
+            ? user.interests.map(i => i.interest.name) 
+            : ["Web3", "AI/ML", "Startups"],
           bio: p?.bio || "Passionate student looking to collaborate on impactful tech projects and hackathons.",
           experienceLevel: p?.experienceLevel || "Intermediate",
-          portfolioUrl: p?.portfolioUrl,
-          githubUrl: p?.githubUrl,
-          linkedinUrl: p?.linkedinUrl,
+          portfolioUrl: null,
+          githubUrl: null,
+          linkedinUrl: null,
           matchScore: Math.floor(Math.random() * 20) + 80 // Mock 80-99% match
         }
       })

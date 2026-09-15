@@ -69,18 +69,18 @@ function InnovationForm() {
         <div className="space-y-8 glass p-8 rounded-3xl border border-border">
           <div className="space-y-3">
             <label className="text-sm font-semibold text-foreground/90">What makes this project truly innovative? *</label>
-            <textarea value={innovation} onChange={e => setInnovation(e.target.value)} rows={4} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="Describe your unique value proposition..." />
+            <textarea value={innovation} onChange={e => setInnovation(e.target.value)} rows={4} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-4 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="Describe your unique value proposition..." />
           </div>
 
           <div className="space-y-3">
             <label className="text-sm font-semibold text-foreground/90">Prototype / Demo Link</label>
-            <input type="text" value={prototype} onChange={e => setPrototype(e.target.value)} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="https://..." />
+            <input type="text" value={prototype} onChange={e => setPrototype(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-4 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="https://..." />
             <p className="text-xs text-muted-foreground">Link to GitHub, Figma, or live deployment</p>
           </div>
 
           <div className="space-y-3">
             <label className="text-sm font-semibold text-foreground/90">What resources do you need most right now? *</label>
-            <textarea value={resourcesNeeded} onChange={e => setResourcesNeeded(e.target.value)} rows={3} className="w-full bg-gray-100 border border-border rounded-xl p-4 text-foreground focus:outline-none focus:border-blue-500" placeholder="Cloud credits, specific APIs, domain expertise..." />
+            <textarea value={resourcesNeeded} onChange={e => setResourcesNeeded(e.target.value)} rows={3} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-4 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" placeholder="Cloud credits, specific APIs, domain expertise..." />
           </div>
 
           <div className="space-y-4">
@@ -92,8 +92,8 @@ function InnovationForm() {
                   onClick={() => toggleSupport(type)}
                   className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
                     supportRequested.includes(type) 
-                      ? 'bg-blue-600 border-blue-500 text-foreground shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
-                      : 'bg-gray-100 border-border text-muted-foreground hover:text-foreground hover:border-gray-300'
+                      ? 'bg-blue-600 border-blue-500 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' 
+                      : 'bg-card dark:bg-[#1E293B] border-border text-muted-foreground hover:text-foreground hover:border-gray-500'
                   }`}
                 >
                   {type}

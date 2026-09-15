@@ -51,11 +51,11 @@ export function StudentProfileModal({ isOpen, onClose, student }: ModalProps) {
           </div>
           
           <div className="mb-6">
-            <div className="inline-flex items-center text-xs font-bold text-green-700 bg-green-50 border border-green-200 px-3 py-1 rounded-full mb-4 shadow-sm">
+            <div className="inline-flex items-center text-xs font-bold text-black bg-green-100 border border-green-300 px-3 py-1 rounded-full mb-4 shadow-sm">
               {student.match}% Match
             </div>
             
-            <p className="text-gray-700 text-sm leading-relaxed mb-6 bg-muted p-4 rounded-xl border border-border">
+            <p className="text-black font-medium text-sm leading-relaxed mb-6 bg-gray-100 p-4 rounded-xl border border-gray-300 shadow-sm">
               "{student.description}"
             </p>
             
@@ -65,7 +65,7 @@ export function StudentProfileModal({ isOpen, onClose, student }: ModalProps) {
                 {student.skills.map(skill => (
                   <span 
                     key={skill} 
-                    className="text-xs font-bold px-3 py-1.5 rounded-md bg-orange-50 border border-orange-200 text-orange-900 shadow-sm"
+                    className="text-xs font-bold px-3 py-1.5 rounded-md bg-orange-100 border border-orange-300 text-black shadow-sm"
                   >
                     {skill}
                   </span>
@@ -75,7 +75,7 @@ export function StudentProfileModal({ isOpen, onClose, student }: ModalProps) {
           </div>
           
           <div className="flex gap-3 pt-2 border-t border-border">
-            <Button variant="outline" className="flex-1 font-semibold text-gray-700 border-gray-300 hover:bg-muted" onClick={onClose}>
+            <Button variant="outline" className="flex-1 font-semibold text-foreground border-border hover:bg-muted" onClick={onClose}>
               Cancel
             </Button>
             <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-md">

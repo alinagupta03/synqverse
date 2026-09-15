@@ -112,7 +112,7 @@ export default function OnboardingFlow() {
                       <div 
                         key={goal} 
                         onClick={() => setSelectedGoal(goal)}
-                        className={`p-4 border rounded-xl cursor-pointer transition-colors text-sm text-center ${selectedGoal === goal ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-border hover:bg-gray-100 text-foreground'}`}
+                        className={`p-4 border rounded-xl cursor-pointer transition-colors text-sm text-center ${selectedGoal === goal ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-border hover:bg-muted text-foreground'}`}
                       >
                         {goal}
                       </div>

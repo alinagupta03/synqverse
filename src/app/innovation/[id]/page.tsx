@@ -58,9 +58,9 @@ export default function InnovationDetail() {
 
           <div className="flex flex-col items-end gap-2">
             <span className={`px-4 py-2 rounded-xl text-sm font-bold border ${data.status === 'ACCEPTED' ? 'bg-green-500/10 text-green-400 border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]' :
-                data.status === 'REJECTED' ? 'bg-red-500/10 text-red-400 border-red-500/30' :
-                  data.status === 'SHORTLISTED' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
-                    'bg-yellow-500/10 text-yellow-400 border-yellow-500/30 animate-pulse'
+              data.status === 'REJECTED' ? 'bg-red-500/10 text-red-400 border-red-500/30' :
+                data.status === 'SHORTLISTED' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
+                  'bg-yellow-500/10 text-yellow-400 border-yellow-500/30 animate-pulse'
               }`}>
               Status: {data.status.replace('_', ' ')}
             </span>
@@ -72,7 +72,13 @@ export default function InnovationDetail() {
         {adminMode && (
           <div className="p-6 bg-red-500/10 border border-red-500/30 rounded-2xl space-y-4">
             <h3 className="text-red-400 font-bold flex items-center gap-2">⚠️ Admin Review Panel (Mock)</h3>
-            <textarea value={feedback} onChange={e => setFeedback(e.target.value)} placeholder="Review feedback..." className="w-full bg-black/50 border border-red-500/20 rounded-lg p-3 text-white text-sm focus:outline-none" rows={3} />
+            <textarea 
+              value={feedback} 
+              onChange={e => setFeedback(e.target.value)} 
+              placeholder="Review feedback..." 
+              className="w-full bg-card dark:bg-[#1E293B] border border-red-500/30 rounded-lg p-3 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors" 
+              rows={3} 
+            />
             <div className="flex flex-wrap gap-2">
               {['UNDER_REVIEW', 'SHORTLISTED', 'NEEDS_CHANGES', 'ACCEPTED', 'REJECTED'].map(s => (
                 <button key={s} onClick={() => updateStatus(s)} className="bg-card text-card-foreground/10 hover:bg-card text-card-foreground/20 text-white px-3 py-1.5 rounded-lg text-sm transition-colors">{s}</button>

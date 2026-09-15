@@ -68,11 +68,31 @@ export default function DiscoverPage() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const sendConnectionRequest = () => {
-    setConnectModalOpen(false)
-    setToast(`Connection request sent to ${selectedProfile?.anonymousId}!`)
-    setTimeout(() => setToast(null), 3000)
-    setConnectNote("")
+  const sendConnectionRequest = async () => {
+    if (!selectedProfile) return
+    try {
+      const res = await fetch("/api/connections", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetUserId: selectedProfile.id })
+      })
+      const data = await res.json()
+      if (data.error) {
+        setToast(data.error)
+      } else {
+        setToast(`Connection request sent to ${selectedProfile.anonymousId}!`)
+        // Trigger live activity sync across pages
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent("synq-activity-update"))
+        }
+      }
+    } catch {
+      setToast("Failed to send connection request. Please try again.")
+    } finally {
+      setConnectModalOpen(false)
+      setConnectNote("")
+      setTimeout(() => setToast(null), 3000)
+    }
   }
 
   const ALL_BRANCHES = [
@@ -100,7 +120,7 @@ export default function DiscoverPage() {
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Interests & Skills</label>
                     <div className="flex flex-wrap gap-2">
                        {[...(selectedProfile.skills || []), ...(selectedProfile.interests || [])].slice(0, 6).map(tag => (
-                          <span key={tag} className="text-xs px-2 py-1 bg-gray-100 rounded-md border border-gray-200 text-gray-700">{tag}</span>
+                          <span key={tag} className="text-xs px-2.5 py-1 bg-gray-100 rounded-md border border-gray-300 text-black font-semibold shadow-sm">{tag}</span>
                        ))}
                     </div>
                  </div>
@@ -108,7 +128,7 @@ export default function DiscoverPage() {
                  <div className="mb-6">
                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Add a note (optional)</label>
                     <textarea 
-                       className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none h-24"
+                       className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors resize-none h-24"
                        placeholder="Hi! I saw we share an interest in..."
                        value={connectNote}
                        onChange={(e) => setConnectNote(e.target.value)}
@@ -117,7 +137,7 @@ export default function DiscoverPage() {
                  
                  <div className="flex gap-3">
                     <Button variant="outline" className="flex-1" onClick={() => setConnectModalOpen(false)}>Cancel</Button>
-                    <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" onClick={sendConnectionRequest}>
+                    <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold" onClick={sendConnectionRequest}>
                        Send Connection Request
                     </Button>
                  </div>
@@ -202,7 +222,7 @@ export default function DiscoverPage() {
                
                <div className="space-y-2">
                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Project Type</label>
-                 <select className="w-full bg-gray-100 border border-gray-200 rounded-md p-2 text-sm text-gray-900 focus:outline-none">
+                 <select className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-md p-2 text-sm text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-colors">
                     <option value="">All Projects</option>
                     <option value="Hackathon">Hackathon</option>
                     <option value="Startup">Startup</option>

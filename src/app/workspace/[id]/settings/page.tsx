@@ -62,7 +62,7 @@ export default function WorkspaceSettings() {
               type="text" 
               value={name} 
               onChange={e => setName(e.target.value)} 
-              className="w-full bg-muted/50 border border-border rounded-lg px-4 py-2 text-sm text-foreground focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
             />
           </div>
           <div className="space-y-2">
@@ -71,7 +71,7 @@ export default function WorkspaceSettings() {
               value={description} 
               onChange={e => setDescription(e.target.value)} 
               rows={4}
-              className="w-full bg-muted/50 border border-border rounded-lg px-4 py-2 text-sm text-foreground focus:outline-none focus:border-blue-500 transition-colors resize-none"
+              className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"
             />
           </div>
           <div className="space-y-2">
@@ -80,7 +80,7 @@ export default function WorkspaceSettings() {
               type="date" 
               value={deadline} 
               onChange={e => setDeadline(e.target.value)} 
-              className="w-full bg-muted/50 border border-border rounded-lg px-4 py-2 text-sm text-foreground focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-lg px-4 py-2 text-sm text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
             />
           </div>
 

@@ -131,14 +131,14 @@ export default function WorkspaceRoadmap() {
           <div className="bg-[#111] border border-border rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-xl font-bold text-foreground mb-4">New Milestone</h3>
             <div className="space-y-4">
-              <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Milestone title..." className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500" />
-              <textarea value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder="Description..." className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500" rows={3} />
-              <select value={newPhase} onChange={e => setNewPhase(e.target.value)} className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500">
-                {PHASES.map(p => <option key={p} value={p}>{p}</option>)}
+              <input type="text" value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="Milestone title..." className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
+              <textarea value={newDesc} onChange={e => setNewDesc(e.target.value)} placeholder="Description..." className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" rows={3} />
+              <select value={newPhase} onChange={e => setNewPhase(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                {PHASES.map(p => <option key={p} value={p} className="bg-card dark:bg-[#1E293B] text-foreground dark:text-white">{p}</option>)}
               </select>
               <div className="flex justify-end gap-3 mt-6">
                 <button onClick={() => setShowNewModal(false)} className="px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">Cancel</button>
-                <button onClick={createMilestone} disabled={!newTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-foreground px-4 py-2 rounded-xl font-medium transition-colors">Create Milestone</button>
+                <button onClick={createMilestone} disabled={!newTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-xl font-medium transition-colors">Create Milestone</button>
               </div>
             </div>
           </div>

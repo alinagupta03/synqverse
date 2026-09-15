@@ -114,18 +114,18 @@ export default function WorkspaceTasks() {
           <div className="bg-[#111] border border-border rounded-2xl p-6 w-full max-w-md">
             <h3 className="text-xl font-bold text-foreground mb-4">New Task</h3>
             <div className="space-y-4">
-              <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Task title..." className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500" />
+              <input type="text" value={newTaskTitle} onChange={e => setNewTaskTitle(e.target.value)} placeholder="Task title..." className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" />
               <div className="flex gap-4">
-                <select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value)} className="w-full bg-gray-100 border border-border rounded-xl p-3 text-foreground focus:outline-none focus:border-blue-500">
-                  <option value="LOW">Low Priority</option>
-                  <option value="MEDIUM">Medium Priority</option>
-                  <option value="HIGH">High Priority</option>
-                  <option value="URGENT">Urgent</option>
+                <select value={newTaskPriority} onChange={e => setNewTaskPriority(e.target.value)} className="w-full bg-card dark:bg-[#1E293B] border border-border rounded-xl p-3 text-foreground dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                  <option value="LOW" className="bg-card dark:bg-[#1E293B] text-foreground dark:text-white">Low Priority</option>
+                  <option value="MEDIUM" className="bg-card dark:bg-[#1E293B] text-foreground dark:text-white">Medium Priority</option>
+                  <option value="HIGH" className="bg-card dark:bg-[#1E293B] text-foreground dark:text-white">High Priority</option>
+                  <option value="URGENT" className="bg-card dark:bg-[#1E293B] text-foreground dark:text-white">Urgent</option>
                 </select>
               </div>
               <div className="flex justify-end gap-3 mt-6">
                 <button onClick={() => setShowNewTaskModal(false)} className="px-4 py-2 text-muted-foreground hover:text-foreground transition-colors">Cancel</button>
-                <button onClick={() => createTask("TODO")} disabled={!newTaskTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-foreground px-4 py-2 rounded-xl font-medium transition-colors">Create Task</button>
+                <button onClick={() => createTask("TODO")} disabled={!newTaskTitle} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-xl font-medium transition-colors">Create Task</button>
               </div>
             </div>
           </div>
